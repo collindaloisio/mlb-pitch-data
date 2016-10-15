@@ -26,6 +26,11 @@ standardName = 'year_'+yr+'/month_'+mon+'/day_'+day
 
 #date = Get some date from the user
 
+
+#Dylan feel free to add this back in. I don't understand the FTP stuff in here and it 
+#was breaking so I commented it out.
+#Explain what it's trying to do. 
+
 #fileNames = ftp.nlist('/year_2015/month_03/day_21/')
 
 #this will be the full Url for some game
