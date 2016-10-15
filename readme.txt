@@ -23,7 +23,7 @@ a drop down of attributes about that pitch. You could see velocity, spin rate, o
 
 
 
-This is something I wrote when I was very blazed. I wrote this about 6 weeks ago -- before we discussed this project. I had forgotten I wrote it:
+Below is something I wrote when I was very blazed. I wrote this about 6 weeks ago -- before we discussed this project. I had forgotten I wrote it:
 
 
 --------------------------------------------------------
