@@ -12,13 +12,6 @@ distance of the center of the ball are displayed as points. Strikes are red. Bal
 are blue. When you click on a pitch, you get a drop down of attributes about that 
 pitch. You could see velocity, spin rate, outcome, etc. 
 
-
-
-
-
-
-
-
 ########
 
 
