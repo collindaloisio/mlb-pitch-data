@@ -61,7 +61,9 @@ def downloadGameDescriptionFiles(dateUrl):
 
 
 
-
+# Write this function! Input is first three letters of away team
+# Output should be a list of the pitchers. Heading here can describe how you will do this
+def getPitcherList(gameSelected):
 
 
 def whoPlayed():
@@ -102,6 +104,10 @@ def main():
     #print("Games Played on " + date + ":")
     #whoPlayed()
     #getGameLinks(fullUrl)
+
+    gameSelected = raw_input('From List above pick a game (First Three Letters of Away Team: ') # Prompt for game
+
+    pitchers = getPitcherList(gameSelected)
 
 if __name__ == "__main__":
     main()
