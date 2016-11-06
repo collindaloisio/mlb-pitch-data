@@ -1,3 +1,6 @@
+import Pitcher
+import Batter
+
 class Game :
 	def __init__(self,URL,homeTeam,awayTeam,homePitchers,awayPitchers,inningsPlayed) :
 		self.URL = URL
@@ -8,10 +11,7 @@ class Game :
 		self.inningsPlayed = inningsPlayed
 
 
-	class AtBat :
-		import Pitcher
-		import Batter
-		pitcher = Pitcher(self,playerId,)
+
 		class Pitch :
 			
 
