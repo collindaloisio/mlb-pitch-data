@@ -15,6 +15,7 @@ import glob
 # this shit out.                                                                                                 #
 ##################################################################################################################
 
+
 def getGameLinks(dateUrl):
     counter = 0
 
@@ -29,7 +30,7 @@ def getGameLinks(dateUrl):
     for link in soup.find_all("a", string=re.compile("gid")):
 
         # Create fileName for file stored locally,
-        dfileName = 'gameFile' + str(counter) + '.xml'
+        
         # Create the URL for the specific file you want
         gameLink = dateUrl + '/' + link.get('href')
         linkList.append(gameLink)
@@ -41,7 +42,7 @@ def getGameLinks(dateUrl):
 def downloadGameDescriptionFiles(dateUrl):
 
     # Appended to each file as we download for uniqueness
-    
+    counter = 0
     linkList = getGameLinks(dateUrl)
 
     # For all links in the html file that have the substring "GID"...
@@ -51,6 +52,7 @@ def downloadGameDescriptionFiles(dateUrl):
         for files in gameSoup.find_all("a", string=re.compile("game.xml")):
             # Download the file and increment counter for uniqueness
             try:
+                dfileName = 'gameFile' + str(counter) + '.xml'
                 urllib.urlretrieve(gameLink + 'game.xml', dfileName)
                 counter = counter + 1
             except:
