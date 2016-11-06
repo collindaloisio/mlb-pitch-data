@@ -1,8 +1,11 @@
 import sys, urllib, re, urlparse
 import fileinput
+import Game
 from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 import glob
+
+mlbSite = "http://gd2.mlb.com/components/game/mlb/"
 
 ##################################################################################################################
 # Function: downloadGameFiles                                                                                    #
@@ -38,7 +41,24 @@ def getGameLinks(dateUrl):
         print(link)
     return(linkList)
 
+# This is a wrapper function will instantiate a game class object given a
+# game URL. For each game it will create the Pitcher Objects and
+def gameBuilder(gameDirectory):
 
+    homePitchers = []
+    awayPitchers = []
+    
+    # Find all Pitches for the given game,
+    # Create List of Home Pitchers and Away Pitchers
+
+
+    # For each at Bat in the game,
+    # Compile a List of pitches for that at bat and create AtBat instance
+    # Compile list of ALL at bats in game
+
+    # Create game instance and reutrn
+    currentGame = Game()
+    return currentGame
 
 def downloadGameDescriptionFiles(dateUrl):
 
@@ -60,12 +80,6 @@ def downloadGameDescriptionFiles(dateUrl):
                 print("Could not Download File")
 
 
-
-# Write this function! Input is first three letters of away team
-# Output should be a list of the pitchers. Heading here can describe how you will do this
-def getPitcherList(gameSelected):
-
-
 def whoPlayed():
     for filename in glob.glob('*.xml'):
         tree = ET.parse(filename)
@@ -80,7 +94,6 @@ def whoPlayed():
         print(awayTeam + " played at " + hometeam + " at " + gameTime + " Eastern Time\n")
 
 def main():
-    mlbSite = "http://gd2.mlb.com/components/game/mlb/"
 
     date = raw_input('Enter a date YYYYMMDD: ') #prompt for date
 
