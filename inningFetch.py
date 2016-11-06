@@ -34,7 +34,8 @@ def getGameLinks(dateUrl):
         # Create the URL for the specific file you want
         gameLink = dateUrl + '/' + link.get('href')
         linkList.append(gameLink)
-    #print(linkList)
+    for link in linkList:
+        print(link)
     return(linkList)
 
 
@@ -94,11 +95,12 @@ def main():
 
     # Download the files for a specific date
     print("Downloading game files. Standby...")
-    downloadGameDescriptionFiles(fullUrl)
+    getGameLinks(fullUrl)
+    #downloadGameDescriptionFiles(fullUrl)
 
     # Parse the XML files to determine who played
-    print("Games Played on " + date + ":")
-    whoPlayed()
+    #print("Games Played on " + date + ":")
+    #whoPlayed()
     #getGameLinks(fullUrl)
 
 if __name__ == "__main__":
