@@ -4,6 +4,9 @@ import Game
 from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 import glob
+import numpy as np
+import pandas as pd
+import matplotlib as plt
 
 mlbSite = "http://gd2.mlb.com/components/game/mlb/"
 
@@ -78,6 +81,21 @@ def downloadGameDescriptionFiles(dateUrl):
                 counter = counter + 1
             except:
                 print("Could not Download File")
+
+#Given an atBat instnace, plot all pitches on x,y grid
+def plotPitches(atBat) :
+    pitches = atBat.getPitches()
+    pitchx = []
+    pitchy = []
+    for pitch in pitches :
+        pitchx.append(pitch.x)
+        pitchy.append(pitch.y)
+
+    dat = {'x': pitchx, 'y': pitchy}
+    toPlot = pd.DataFrame(data =dat, index=index)
+    toPlot.plot()
+
+
 
 
 def whoPlayed():
