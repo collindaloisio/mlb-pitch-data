@@ -1,6 +1,7 @@
 import sys, urllib, re, urlparse
 import fileinput
 import Game
+import Pitcher
 from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 import glob
@@ -45,12 +46,36 @@ def getGameLinks(dateUrl):
 # game URL. For each game it will create the Pitcher Objects and
 def gameBuilder(gameDirectory):
 
-    homePitchers = []
-    awayPitchers = []
-    
+    homePitchers = list()
+    awayPitchers = list()
+
+    f = urllib.urlopen(gameDirectory)
+    gameSoup = BeautifulSoup(f, 'html.parser')
+    for files in gameSoup.find_all("a", string=re.compile("bis_boxscore.xml")):
+        try:
+            gameFile = 'boxScore.xml'
+            urllib.urlretrieve(gameDirectory + "bis_boxscore.xml", gameFile)
+        except:
+            print("Could not download boxscore file.")
+
+    tree = ET.parse('bis_boxscore.xml')
+    root = tree.getroot()
+    for pitching in root.findall('pitching'):
+        if pitching.attrib.get("team_flag") in 'away':
+            for pitcherData in pitching.findall('pitcher'):
+                # Build Pitcher
+                currentPitcher = Pitcher(pitcherData.attrib.get('id'), pitcherData.attrib.get('name'), pitcherData.attrib.get('era'))
+                # Add to awayPitchers
+                awayPitchers.append(currentPitcher)
+        else:
+            for pitcher in pitching.findall('pitcher'):
+                # Build Pitcher
+                currentPitcher = Pitcher(pitcherData.attrib.get('id'), pitcherData.attrib.get('name'), pitcherData.attrib.get('era'))
+                # Add to awayPitchers
+                homePitchers.append(currentPitcher)
+
     # Find all Pitches for the given game,
     # Create List of Home Pitchers and Away Pitchers
-
 
     # For each at Bat in the game,
     # Compile a List of pitches for that at bat and create AtBat instance
@@ -119,8 +144,6 @@ def main():
     #getGameLinks(fullUrl)
 
     gameSelected = raw_input('From List above pick a game (First Three Letters of Away Team: ') # Prompt for game
-
-    pitchers = getPitcherList(gameSelected)
 
 if __name__ == "__main__":
     main()
