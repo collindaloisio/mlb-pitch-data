@@ -1,7 +1,6 @@
 class Pitch :
-	def __init__(self,x,y,stats) :
+	def __init__(self,x,y) :
 		self.x = x
 		self.y = y
-		self.stats = stats
 			
 

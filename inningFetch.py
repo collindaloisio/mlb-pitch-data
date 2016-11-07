@@ -1,12 +1,14 @@
 import sys, urllib, re, urlparse
 import fileinput
-import Game
-import Pitcher
+from Game import Game
+from Pitcher import Pitcher
+from Pitch import Pitch
+from AtBat import AtBat
 from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 import glob
 import numpy as np
-import pandas as pd
+#import pandas as pd
 import matplotlib as plt
 
 mlbSite = "http://gd2.mlb.com/components/game/mlb/"
@@ -41,22 +43,42 @@ def getGameLinks(dateUrl):
         # Create the URL for the specific file you want
         gameLink = dateUrl + '/' + link.get('href')
         linkList.append(gameLink)
-    for link in linkList:
-        print(link)
+#    for link in linkList:
+#        print(link)
     return(linkList)
 
 # This is a wrapper function will instantiate a game class object given a
 # game URL. For each game it will create the Pitcher Objects and
 def gameBuilder(gameDirectory):
 
+    counter = 1
+    # Find all Pitches for the given game,
+    # Create List of Home Pitchers and Away Pitchers
     homePitchers = list()
     awayPitchers = list()
+    atBats = list()
+
+    f = urllib.urlopen(gameDirectory)
+    gameSoup = BeautifulSoup(f, 'html.parser')
+    for files in gameSoup.find_all("a", string=re.compile("game.xml")):
+        try:
+            urllib.urlretrieve(gameDirectory + "game.xml", 'game.xml')
+        except:
+            print("Could not download Game file.")
+
+    tree = ET.parse('game.xml')
+    root = tree.getroot()
+    for team in root.findall('team'):
+        if(team.get('type') == 'home'):
+            homeTeam = team.get('name_full')
+        else:
+            awayTeam = team.get('name_full')
 
     f = urllib.urlopen(gameDirectory)
     gameSoup = BeautifulSoup(f, 'html.parser')
     for files in gameSoup.find_all("a", string=re.compile("bis_boxscore.xml")):
         try:
-            gameFile = 'boxScore.xml'
+            gameFile = 'bis_boxScore.xml'
             urllib.urlretrieve(gameDirectory + "bis_boxscore.xml", gameFile)
         except:
             print("Could not download boxscore file.")
@@ -77,9 +99,34 @@ def gameBuilder(gameDirectory):
                 # Add to awayPitchers
                 homePitchers.append(currentPitcher)
 
-    # Find all Pitches for the given game,
-    # Create List of Home Pitchers and Away Pitchers
+    inningDirectory = gameDirectory + "inning/"
+    f = urllib.urlopen(inningDirectory)
+    gameSoup = BeautifulSoup(f, 'html.parser')
+    for files in gameSoup.find_all("a", sting = re.compile("inning_")):
+        inningFile = "inning_" + str(counter) + ".xml"
+        try:
+            urllib.urlretrieve(inningDirectory + inningFile, inningFile)
+            counter = counter + 1
+        except:
+            print("Could not print inning file")
 
+    for filename in glob.glob('inning_*'):
+        tree = ET.parse(filename)
+        root = tree.getroot()
+        for bats in root.findall("atbat"):
+            balls = bats.get("b")
+            strikes = bats.get("s")
+            pitcher = bats.get("pitcher")
+            batter = bats.get("batter")
+            outcome = bats.get("event")
+            allPitches = list()
+            for pitches in bats.findall("pitch"):
+                finalX = pitches.get("x")
+                finalY = pitches.get("y")
+                currentPitch = Pitch(finalX, finalY)
+                allPitches.append(currentPitch)
+            currentAtBat = AtBat(pitcher,batter,outcome,allPitches, balls, strikes)
+            atBats.append(currentAtBat)
     # For each at Bat in the game,
     # Compile a List of pitches for that at bat and create AtBat instance
     # Compile list of ALL at bats in game
@@ -120,9 +167,6 @@ def plotPitches(atBat) :
     toPlot = pd.DataFrame(data =dat, index=index)
     toPlot.plot()
 
-
-
-
 def whoPlayed():
     for filename in glob.glob('*.xml'):
         tree = ET.parse(filename)
@@ -152,16 +196,20 @@ def main():
     fullUrl = mlbSite+standardName
 
     # Download the files for a specific date
-    print("Downloading game files. Standby...")
-    getGameLinks(fullUrl)
+#    print("Downloading game files. Standby...")
+    allLinks = getGameLinks(fullUrl)
+    print(allLinks)
     #downloadGameDescriptionFiles(fullUrl)
+
+    ##print(allLinks)
+    gameBuilder(allLinks[0])
 
     # Parse the XML files to determine who played
     #print("Games Played on " + date + ":")
     #whoPlayed()
     #getGameLinks(fullUrl)
 
-    gameSelected = raw_input('From List above pick a game (First Three Letters of Away Team: ') # Prompt for game
+#    gameSelected = raw_input('From List above pick a game (First Three Letters of Away Team: ') # Prompt for game
 
 if __name__ == "__main__":
     main()

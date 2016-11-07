@@ -11,7 +11,7 @@ class Game :
 		self.awayPitchers = awayPitchers
 		self.inningsPlayed = inningsPlayed
 		self.atBats = atBats
-	def getAtBat(atBatIndex):
+	#def getAtBat(atBatIndex):
 
 
 
