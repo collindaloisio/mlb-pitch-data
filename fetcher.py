@@ -1,8 +1,10 @@
+#!/usr/bin/python
 import sys, urllib, re, urlparse
 import fileinput
 from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 import glob
+import os
 
 ##################################################################################################################
 # Function: downloadGameFiles
@@ -42,7 +44,8 @@ def downloadGameFiles(dateUrl):
             # Download the file and increment counter for uniqueness
             try:
                 urllib.urlretrieve(gameLink + 'game.xml', dfileName)
-                counter = counter + 1
+                print(gameLink + 'game.xml')
+		counter = counter + 1
             except:
                 print("Could not Download File")
 
@@ -59,16 +62,20 @@ def whoPlayed():
 
         print(awayTeam + " played at " + hometeam + " at " + gameTime + " Eastern Time\n")
 
+
+
 def main():
     mlbSite = "http://gd2.mlb.com/components/game/mlb/"
-
+    for filez in os.listdir("./"):
+        if "gameFile" in filez :
+            os.remove(filez)
     date = raw_input('Enter a date YYYYMMDD: ') #prompt for date
 
     #parse input
     yr= date[0:4]
     mon = date[4:6]
     day = date[6:8]
-
+    
     #build name
     standardName = 'year_'+yr+'/month_'+mon+'/day_'+day
 
