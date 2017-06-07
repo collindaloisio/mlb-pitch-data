@@ -5,14 +5,14 @@ import xml.etree.ElementTree as ET
 import glob
 
 ##################################################################################################################
-# Function: downloadGameFiles                                                                                    #
-# inputs: dateUrl- A string that is the path to a specific date on the MLB site that is the home to all games    #
-#         on that given date                                                                                     #
-#                                                                                                                #
-# Explained: This function takes the URl for the specific date and downloads all game.xml files for that given   #
-# date. This function introduces the BeautifulSoup module that we had to download. If you don't get this by      #
-# just looking at it, I'll explain in person. It took me a while of going down the internet rabit hole to figure #
-# this shit out.                                                                                                 #
+# Function: downloadGameFiles
+# inputs: dateUrl- A string that is the path to a specific date on the MLB site that is the home to all games
+#         on that given date
+#
+# Explained: This function takes the URl for the specific date and downloads all game.xml files for that given
+# date. This function introduces the BeautifulSoup module that we had to download. If you don't get this by
+# just looking at it, I'll explain in person. It took me a while of going down the internet rabit hole to figure
+# this shit out.
 ##################################################################################################################
 
 def downloadGameFiles(dateUrl):
@@ -76,12 +76,14 @@ def main():
     fullUrl = mlbSite+standardName
 
     # Download the files for a specific date
-    print("Downloading game files. Standby...")
     downloadGameFiles(fullUrl)
 
     # Parse the XML files to determine who played
-    print("Games Played on " + date + ":")
     whoPlayed()
 
 if __name__ == "__main__":
     main()
+
+
+
+
