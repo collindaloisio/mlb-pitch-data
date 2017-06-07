@@ -44,7 +44,6 @@ def downloadGameFiles(dateUrl):
             # Download the file and increment counter for uniqueness
             try:
                 urllib.urlretrieve(gameLink + 'game.xml', dfileName)
-                print(gameLink + 'game.xml')
 		counter = counter + 1
             except:
                 print("Could not Download File")
@@ -66,9 +65,6 @@ def whoPlayed():
 
 def main():
     mlbSite = "http://gd2.mlb.com/components/game/mlb/"
-    for filez in os.listdir("./"):
-        if "gameFile" in filez :
-            os.remove(filez)
     date = raw_input('Enter a date YYYYMMDD: ') #prompt for date
 
     #parse input
@@ -87,6 +83,10 @@ def main():
 
     # Parse the XML files to determine who played
     whoPlayed()
+    
+    for filez in os.listdir("./"):
+        if "gameFile" in filez :
+            os.remove(filez)
 
 if __name__ == "__main__":
     main()
