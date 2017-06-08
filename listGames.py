@@ -53,15 +53,23 @@ def whoPlayed():
         tree = ET.parse(filename)
         root = tree.getroot()
         gameTime = root.attrib.get("game_time_et")
+        nameList = []
+        teams = ''
         for team in root.findall('team'):
             if(team.get('type') == 'home'):
-                hometeam = team.get('name_full')
+                homeTeam = team.get('name_full')
+                teams = teams + homeTeam
             if(team.get('type') == 'away'):
                 awayTeam = team.get('name_full')
+                teams = teams + awayTeam
+            nameList.append(teams)
+        print(awayTeam + " played at " + homeTeam + " at " + gameTime + " Eastern Time\n")
+        print(teams)
 
-        print(awayTeam + " played at " + hometeam + " at " + gameTime + " Eastern Time\n")
 
-
+#def whoPitched():
+#    for filename in glob.glob('*.xml')
+            
 
 def main():
     mlbSite = "http://gd2.mlb.com/components/game/mlb/"
