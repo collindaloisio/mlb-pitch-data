@@ -17,10 +17,9 @@ import os
 # this shit out.
 ##################################################################################################################
 
-def downloadGameFiles(dateUrl):
+def downloadGameFiles(dateUrl, counter):
 
-    # Appended to each file as we download for uniqueness
-    counter = 0
+    print("Downloading File " + str(counter))
 
     # Establish URL connection
     f = urllib.urlopen(dateUrl)
@@ -29,7 +28,7 @@ def downloadGameFiles(dateUrl):
     soup = BeautifulSoup(f, 'html.parser')
 
     # For all links in the html file that have the substring "GID"...
-    for link in soup.find_all("a", string=re.compile("gid")):
+    for link in soup.find_all("a", string=re.compile("chnmlb")):
 
         # Create fileName for file stored locally,
         dfileName = 'gameFile' + str(counter) + '.xml'
@@ -44,7 +43,6 @@ def downloadGameFiles(dateUrl):
             # Download the file and increment counter for uniqueness
             try:
                 urllib.urlretrieve(gameLink + 'game.xml', dfileName)
-		counter = counter + 1
             except:
                 print("Could not Download File")
 
@@ -89,29 +87,30 @@ def whoPlayed():
 def main():
     mlbSite = "http://gd2.mlb.com/components/game/mlb/"
     referenceSite = "http://www.baseball-reference.com/players/gl.fcgi?id=arrieja01&t=p&year=2016" 
-#    date = raw_input('Enter a date YYYYMMDD: ') #prompt for date
-    date = "20161413"
-    #parse input
-    yr= date[0:4]
-    mon = date[4:6]
-    day = date[6:8]
-    
-    #build name
-    standardName = 'year_'+yr+'/month_'+mon+'/day_'+day
 
-    #this will be the full Url for some Day
-    fullUrl = mlbSite+standardName
+    counter = 0
 
     # Scrape the reference site to determine when Jake Arrieta Played Baseball
-    allStarts = scrapeJake(referenceSite)
-    
-    print(allStarts)
+    allStarts = scrapeJake(referenceSite)    
 
-    # Download the files for a specific date
-    #downloadGameFiles(fullUrl)
+    for date in allStarts:
+
+        #parse input
+        yr= date[0:4]
+        mon = date[4:6]
+        day = date[6:8]
+
+        #build name
+        standardName = 'year_'+yr+'/month_'+mon+'/day_'+day
+
+        #this will be the full Url for some Day
+        fullUrl = mlbSite+standardName
+
+#        downloadGameFiles(fullUrl, counter)
+        counter = counter + 1 
 
     # Parse the XML files to determine who played
-#    whoPlayed()
+    whoPlayed()
     
     #for filez in os.listdir("./"):
     #    if "gameFile" in filez :
