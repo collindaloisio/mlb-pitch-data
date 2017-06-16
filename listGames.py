@@ -48,14 +48,29 @@ def downloadGameFiles(dateUrl):
             except:
                 print("Could not Download File")
 
+def scrapeJake(refUrl):
+    
+    f = urllib.urlopen(refUrl)
+    
+    soup = BeautifulSoup(f, 'html.parser')
+
+    allDates = []
+
+    for items in soup.find_all("td", attrs={'data-stat':'date_game'}):
+        if len(str(items.contents)) > 6:
+            allDates.append(str(items.contents[0])[23:31])
+
+    return allDates
+
+
 def whoPlayed():
+    nameList = []
     for filename in glob.glob('*.xml'):
         tree = ET.parse(filename)
         root = tree.getroot()
         gameTime = root.attrib.get("game_time_et")
-        nameList = []
-        teams = ''
         for team in root.findall('team'):
+            teams = ''
             if(team.get('type') == 'home'):
                 homeTeam = team.get('name_full')
                 teams = teams + homeTeam
@@ -64,7 +79,7 @@ def whoPlayed():
                 teams = teams + awayTeam
             nameList.append(teams)
         print(awayTeam + " played at " + homeTeam + " at " + gameTime + " Eastern Time\n")
-        print(teams)
+    print(nameList)
 
 
 #def whoPitched():
@@ -73,8 +88,9 @@ def whoPlayed():
 
 def main():
     mlbSite = "http://gd2.mlb.com/components/game/mlb/"
-    date = raw_input('Enter a date YYYYMMDD: ') #prompt for date
-
+    referenceSite = "http://www.baseball-reference.com/players/gl.fcgi?id=arrieja01&t=p&year=2016" 
+#    date = raw_input('Enter a date YYYYMMDD: ') #prompt for date
+    date = "20161413"
     #parse input
     yr= date[0:4]
     mon = date[4:6]
@@ -86,15 +102,20 @@ def main():
     #this will be the full Url for some Day
     fullUrl = mlbSite+standardName
 
+    # Scrape the reference site to determine when Jake Arrieta Played Baseball
+    allStarts = scrapeJake(referenceSite)
+    
+    print(allStarts)
+
     # Download the files for a specific date
-    downloadGameFiles(fullUrl)
+    #downloadGameFiles(fullUrl)
 
     # Parse the XML files to determine who played
-    whoPlayed()
+#    whoPlayed()
     
-    for filez in os.listdir("./"):
-        if "gameFile" in filez :
-            os.remove(filez)
+    #for filez in os.listdir("./"):
+    #    if "gameFile" in filez :
+    #        os.remove(filez)
 
 if __name__ == "__main__":
     main()
