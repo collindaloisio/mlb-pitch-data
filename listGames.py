@@ -42,7 +42,7 @@ def downloadGameFiles(dateUrl, counter):
         for files in gameSoup.find_all("a", string=re.compile("game.xml")):
             # Download the file and increment counter for uniqueness
             try:
-                urllib.urlretrieve(gameLink + 'game.xml', dfileName)
+                urllib.urlretrieve(gameLink + 'game.xml', "./local/" + dfileName)
             except:
                 print("Could not Download File")
 
@@ -63,7 +63,7 @@ def scrapeJake(refUrl):
 
 def whoPlayed():
     nameList = []
-    for filename in glob.glob('*.xml'):
+    for filename in glob.glob('./local/*.xml'):
         tree = ET.parse(filename)
         root = tree.getroot()
         gameTime = root.attrib.get("game_time_et")
