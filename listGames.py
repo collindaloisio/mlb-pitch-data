@@ -79,11 +79,6 @@ def whoPlayed():
         print(awayTeam + " played at " + homeTeam + " at " + gameTime + " Eastern Time\n")
     print(nameList)
 
-
-#def whoPitched():
-#    for filename in glob.glob('*.xml')
-            
-
 def main():
     mlbSite = "http://gd2.mlb.com/components/game/mlb/"
     referenceSite = "http://www.baseball-reference.com/players/gl.fcgi?id=arrieja01&t=p&year=2016" 
