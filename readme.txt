@@ -3,14 +3,11 @@ README
 #######
 Overall Objectives of the Application:
 
-Web App and Phone App
-Develop Web App first?
-
-Interactive Strikezone with pitcher/batter matchup filters driven by date and game.
-As the user drags a ball around a strikezone, pitches within some arbitraily small 
-distance of the center of the ball are displayed as points. Strikes are red. Balls
-are blue. When you click on a pitch, you get a drop down of attributes about that 
-pitch. You could see velocity, spin rate, outcome, etc. 
+This application will be able to predict what Jake Arrieta will pitch next. The user will need
+to provide a specific scenario variables such as count, home VS away, pitch count, base runners, batter, etc...
+In the backend we will have created a database of all pitch data for pitches thrown by Jake Arrieta.
+This data will have been gathered and parced from the MLB website. Then with applied machine learning
+algorithms, the algorithm should be able to predict the location and type of pitch to be thrown next.
 
 ########
 
