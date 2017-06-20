@@ -22,7 +22,11 @@ def downloadGameFiles(dateUrl, counter):
     print("Downloading File " + str(counter))
 
     # Establish URL connection
-    f = urllib.urlopen(dateUrl)
+    try:
+        f = urllib.urlopen(dateUrl)
+    except:
+        print("Could not establish connection to MLB website. Check internet connectivity")
+        exit(-1)
 
     # Spin up instance of beautiful soup html parser
     soup = BeautifulSoup(f, 'html.parser')
@@ -48,8 +52,12 @@ def downloadGameFiles(dateUrl, counter):
 
 def scrapeJake(refUrl):
     
-    f = urllib.urlopen(refUrl)
-    
+    try:
+        f = urllib.urlopen(refUrl)
+    except:
+        print("Could not establish connection to MLB reference site. Please check internet connectivity")    
+        exit(-1)
+
     soup = BeautifulSoup(f, 'html.parser')
 
     allDates = []
@@ -59,7 +67,6 @@ def scrapeJake(refUrl):
             allDates.append(str(items.contents[0])[23:31])
 
     return allDates
-
 
 def whoPlayed():
     nameList = []
@@ -101,16 +108,12 @@ def main():
         #this will be the full Url for some Day
         fullUrl = mlbSite+standardName
 
-#        downloadGameFiles(fullUrl, counter)
+        downloadGameFiles(fullUrl, counter)
         counter = counter + 1 
 
     # Parse the XML files to determine who played
     whoPlayed()
     
-    #for filez in os.listdir("./"):
-    #    if "gameFile" in filez :
-    #        os.remove(filez)
-
 if __name__ == "__main__":
     main()
 
