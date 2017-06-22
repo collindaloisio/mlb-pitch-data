@@ -3,6 +3,16 @@ import unittest
 import sys
 from listGames import *
 
+
+
+##################################################################################################################
+# Class: TestDownloads
+
+# Explained: This class instantiates the unittest module. each test should have an argument, often self.
+# Tests are determined to be passed or not by a statement like self.assertEqual or self.AssertTrue
+##################################################################################################################
+
+
 class TestDownloads(unittest.TestCase):
 
 #Unit test of listGames.downloadInningFile
@@ -12,9 +22,6 @@ class TestDownloads(unittest.TestCase):
         downloadInningFile(link,1)
         self.assertTrue(True)
 
-
-# def main():
-#     testdownloadInningFile()
 
 
 
