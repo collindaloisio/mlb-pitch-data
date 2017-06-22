@@ -7,6 +7,15 @@ import glob
 import os
 
 ##################################################################################################################
+# Class: listGames.py
+
+# Explained:
+##################################################################################################################
+
+
+
+
+##################################################################################################################
 # Function: downloadGameFiles
 # inputs: dateUrl- A string that is the path to a specific date on the MLB site that is the home to all games
 #         on that given date
@@ -16,6 +25,18 @@ import os
 # just looking at it, I'll explain in person. It took me a while of going down the internet rabit hole to figure
 # this shit out.
 ##################################################################################################################
+
+#
+#Wrapper function to download a file
+#Input: link you are downloading, fileName for local system
+#Returns the file at link in ./local
+def downloadFile(link,extension,fileName):
+    try:
+        urllib.urlretrieve(link, "./local/" + fileName)
+    except:
+        print("Could not Download File")
+
+
 
 def downloadGameFiles(dateUrl, counter):
 
@@ -45,10 +66,24 @@ def downloadGameFiles(dateUrl, counter):
 
         for files in gameSoup.find_all("a", string=re.compile("game.xml")):
             # Download the file and increment counter for uniqueness
-            try:
-                urllib.urlretrieve(gameLink + 'game.xml', "./local/" + dfileName)
-            except:
-                print("Could not Download File")
+            downloadFile(gameLink+'game.xml',dfileName)
+
+
+#
+#Function downloadInningFile based on link and user choice of inning or "all"
+#Input: gameLink to the gid file at the level of YYYYMMDD link
+#eg: http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/
+#Input 2: segment of game you want to download, 1-last inning(9+) or "all" for the whole inning_all file
+#Output: specified inning file determined by gameLink_segment
+#
+def downloadInningFile(gameLink, segment):
+
+    segLink = '_'+segment
+    inningsLink = gameLink + 'inning' + segLink
+
+    downloadFile(inningsLink, inning+segment.xml)
+
+
 
 def scrapeJake(refUrl):
     
@@ -109,7 +144,7 @@ def main():
         fullUrl = mlbSite+standardName
 
         downloadGameFiles(fullUrl, counter)
-        counter = counter + 1 
+        counter = counter + 1
 
     # Parse the XML files to determine who played
     whoPlayed()
