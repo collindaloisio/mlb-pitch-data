@@ -30,7 +30,7 @@ import os
 #Wrapper function to download a file
 #Input: link you are downloading, fileName for local system
 #Returns the file at link in ./local
-def downloadFile(link,extension,fileName):
+def downloadFile(link,fileName):
     try:
         urllib.urlretrieve(link, "./local/" + fileName)
     except:
@@ -78,10 +78,10 @@ def downloadGameFiles(dateUrl, counter):
 #
 def downloadInningFile(gameLink, segment):
 
-    segLink = '_'+segment
+    segLink = '_'+str(segment)
     inningsLink = gameLink + 'inning' + segLink
 
-    downloadFile(inningsLink, inning+segment.xml)
+    downloadFile(inningsLink, 'inning'+str(segment)+'.xml')
 
 
 
