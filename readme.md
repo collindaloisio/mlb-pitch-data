@@ -14,9 +14,7 @@ algorithms, the algorithm should be able to predict the location and type of pit
 
 
 
-Below is something I wrote when I was very blazed. I wrote this about 6 weeks ago -- 
-before we discussed this project. I had forgotten I wrote it:
-
+Below is something Collin wrote a long time ago before we discussed this project.
 
 --------------------------------------------------------
 
