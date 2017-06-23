@@ -124,7 +124,6 @@ def whoPlayed():
                 teams = teams + awayTeam
             nameList.append(teams)
         print(awayTeam + " played at " + homeTeam + " at " + gameTime + " Eastern Time\n")
-    print(nameList)
 
 def main():
     mlbSite = "http://gd2.mlb.com/components/game/mlb/"
