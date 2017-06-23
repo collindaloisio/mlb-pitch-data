@@ -12,31 +12,23 @@ import os
 # Explained:
 ##################################################################################################################
 
-
-
-
-##################################################################################################################
-# Function: downloadGameFiles
-# inputs: dateUrl- A string that is the path to a specific date on the MLB site that is the home to all games
-#         on that given date
 #
-# Explained: This function takes the URl for the specific date and downloads all game.xml files for that given
-# date. This function introduces the BeautifulSoup module that we had to download. If you don't get this by
-# just looking at it, I'll explain in person. It took me a while of going down the internet rabit hole to figure
-# this shit out.
-##################################################################################################################
-
+# Wrapper function to download a file
+# Input: link you are downloading, fileName for local system
+# Downloads the file at link in ./local
 #
-#Wrapper function to download a file
-#Input: link you are downloading, fileName for local system
-#Returns the file at link in ./local
+
 def downloadFile(link,fileName):
     try:
         urllib.urlretrieve(link, "./local/" + fileName)
     except:
         print("Could not Download File")
 
-
+# Given a url from the mlb website corresponding to a date, this function downloads all game files for that day 
+# Inputs: dateUrl- A string that is the path to a specific date on the MLB site that is the home to all games
+#         on that given date
+#         counter - Keeps track of how many files we have downloaded thus far. Is appended to end of file names.
+# Output: Game files are downloaded to local directory within working directory
 
 def downloadGameFiles(dateUrl, counter):
 
@@ -70,12 +62,13 @@ def downloadGameFiles(dateUrl, counter):
 
 
 #
-#Function downloadInningFile based on link and user choice of inning or "all"
-#Input: gameLink to the gid file at the level of YYYYMMDD link
-#eg: http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/
-#Input 2: segment of game you want to download, 1-last inning(9+) or "all" for the whole inning_all file
-#Output: specified inning file determined by gameLink_segment
+# Function downloadInningFile based on link and user choice of inning or "all"
+# Inputs: gameLink - Link to the gid file at the level of YYYYMMDD link
+#        eg: http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/
+#        segment - segment of game you want to download, 1-last inning(9+) or "all" for the whole inning_all file
+# Output: Downloads specified inning file determined by gameLink_segment to working directory
 #
+
 def downloadInningFile(gameLink, segment):
 
     segLink = '_'+str(segment)
@@ -83,7 +76,13 @@ def downloadInningFile(gameLink, segment):
 
     downloadFile(inningsLink, 'inning'+str(segment)+'.xml')
 
-
+#
+# Function returns a list of Dates that Jake Arrieta threw pitches in a game. This function was made
+# with the intention of expaning it to work with any pitcher. Should be refactored to scrapePitcher in future
+# Inputs: refUrl - This is the link to the website baseball-reference.com that
+#         shows all of Jake Arrieta's games
+# Output: Returns a list object of Dates that Jake Arrieta pitched in YYYYMMDD Format
+#
 
 def scrapeJake(refUrl):
     
@@ -102,6 +101,12 @@ def scrapeJake(refUrl):
             allDates.append(str(items.contents[0])[23:31])
 
     return allDates
+
+#
+# Function iterates through all gameFiles in ./local and prints a sentance about the game.
+# Inputs: None (Files in ./local)
+# Output: Prints Sentance stating which teams played, where they played and at what time.
+#
 
 def whoPlayed():
     nameList = []
