@@ -79,6 +79,8 @@ def downloadInningFile(gameLink, segment):
 
     downloadFile(inningsLink, 'inning'+str(segment)+'.xml')
 
+
+
 #
 # Function returns a list of Dates that Jake Arrieta threw pitches in a game. This function was made
 # with the intention of expaning it to work with any pitcher. Should be refactored to scrapePitcher in future
@@ -88,7 +90,7 @@ def downloadInningFile(gameLink, segment):
 #
 
 
-def scrapeJake(refUrl):
+def scrapePitcherDates(refUrl):
     
     try:
         f = urllib.urlopen(refUrl)
@@ -105,6 +107,8 @@ def scrapeJake(refUrl):
             allDates.append(str(items.contents[0])[23:31])
 
     return allDates
+
+
 
 #
 # Function iterates through all gameFiles in ./local and prints a sentance about the game.
@@ -137,7 +141,7 @@ def main():
     counter = 0
 
     # Scrape the reference site to determine when Jake Arrieta Played Baseball
-    allStarts = scrapeJake(referenceSite)    
+    allStarts = scrapePitcherDates(referenceSite)
 
     for date in allStarts:
 

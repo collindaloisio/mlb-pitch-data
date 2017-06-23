@@ -17,7 +17,9 @@ class TestDownloads(unittest.TestCase):
     def testdownloadInningFile(self):
         link = 'http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/'
         downloadInningFile(link,1)
-        self.assertTrue(True)
+        self.assertTrue(os.path.isfile('./local/inning1.xml'))
+        os.remove('./local/inning1.xml')
+
 
 
 if __name__ == "__main__":
