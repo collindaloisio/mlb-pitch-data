@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import unittest
 import sys
-from listGames import *
+from scrapeUtils import *
 
 ##################################################################################################################
 # Class: TestDownloads

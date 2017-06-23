@@ -7,7 +7,7 @@ import glob
 import os
 
 ##################################################################################################################
-# Class: listGames.py
+# Class: scrapeUtils.py
 
 # Explained:
 ##################################################################################################################
@@ -73,8 +73,9 @@ def downloadGameFiles(dateUrl, counter):
 
 def downloadInningFile(gameLink, segment):
 
-    segLink = '_'+str(segment)
-    inningsLink = gameLink + 'inning' + segLink
+    segLink = '_'+str(segment)+'.xml'
+    inningsLink = gameLink + 'inning/inning' + segLink
+    #print(inningsLink)
 
     downloadFile(inningsLink, 'inning'+str(segment)+'.xml')
 
