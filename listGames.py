@@ -24,11 +24,13 @@ def downloadFile(link,fileName):
     except:
         print("Could not Download File")
 
-# Given a url from the mlb website corresponding to a date, this function downloads all game files for that day 
+#
+# Function downloads all game files for that day
 # Inputs: dateUrl- A string that is the path to a specific date on the MLB site that is the home to all games
 #         on that given date
 #         counter - Keeps track of how many files we have downloaded thus far. Is appended to end of file names.
 # Output: Game files are downloaded to local directory within working directory
+#
 
 def downloadGameFiles(dateUrl, counter):
 
@@ -84,6 +86,7 @@ def downloadInningFile(gameLink, segment):
 # Output: Returns a list object of Dates that Jake Arrieta pitched in YYYYMMDD Format
 #
 
+
 def scrapeJake(refUrl):
     
     try:
@@ -124,6 +127,7 @@ def whoPlayed():
                 teams = teams + awayTeam
             nameList.append(teams)
         print(awayTeam + " played at " + homeTeam + " at " + gameTime + " Eastern Time\n")
+
 
 def main():
     mlbSite = "http://gd2.mlb.com/components/game/mlb/"

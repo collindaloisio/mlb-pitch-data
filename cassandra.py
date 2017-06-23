@@ -17,3 +17,12 @@ def connectToLocal():
     cluster = Cluster()
     session = cluster.connect()
 
+
+def main():
+    connectToLocal()
+
+if __name__ == "__main__":
+    main()
+
+
+

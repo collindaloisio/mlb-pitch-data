@@ -3,3 +3,6 @@ gameFile*
 .idea/
 .project
 *.pyc
+idStore.txt
+newp.py
+quickGui.py
