@@ -2,3 +2,4 @@ gameFile*
 .classpath
 .idea/
 .project
+*.pyc
