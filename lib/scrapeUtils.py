@@ -5,7 +5,9 @@ from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 import glob
 import os
+import settings
 import tests
+
 ##################################################################################################################
 # Class: scrapeUtils.py
 
@@ -20,9 +22,7 @@ import tests
 
 def downloadFile(link,fileName):
     try:
-        #It took me way to long to find this explicit reference to .local and change it to ../local
-        #How can we refactor accross the whole code base instead of explicit reference
-        urllib.urlretrieve(link, "../local/" + fileName)
+        urllib.urlretrieve(link, settings.localDir + fileName)
     except:
         print("Could not Download File")
 
