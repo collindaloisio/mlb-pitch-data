@@ -29,6 +29,7 @@ def downloadFile(link,fileName):
 
     with open(settings.localDir + fileName) as f: fileString = f.read()
     if fileString == 'GameDay - 404 Not Found':
+        print("File Not found! 404")
         os.remove(settings.localDir + fileName)
         return -1
 
@@ -150,30 +151,6 @@ def scrapePitcherDates(refUrl):
             allDates.append(str(items.contents[0])[23:31])
 
     return allDates
-
-#
-# Function iterates through all gameFiles in ./local and prints a sentance about the game.
-# Inputs: None (Files in ./local)
-# Output: Prints Sentence stating which teams played, where they played and at what time.
-#
-
-def whoPlayed():
-    nameList = []
-    for filename in glob.glob('./local/*.xml'):
-        tree = ET.parse(filename)
-        root = tree.getroot()
-        gameTime = root.attrib.get("game_time_et")
-        for team in root.findall('team'):
-            teams = ''
-            if(team.get('type') == 'home'):
-                homeTeam = team.get('name_full')
-                teams = teams + homeTeam
-            if(team.get('type') == 'away'):
-                awayTeam = team.get('name_full')
-                teams = teams + awayTeam
-            nameList.append(teams)
-        print(awayTeam + " played at " + homeTeam + " at " + gameTime + " Eastern Time\n")
-
     
 if __name__ == "__main__":
     main()
