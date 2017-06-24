@@ -24,7 +24,11 @@ def downloadFile(link,fileName):
     try:
         urllib.urlretrieve(link, settings.localDir + fileName)
     except:
-        print("Could not Download File" + fileName)
+        print("Could not Download File " + fileName)
+        return -1
+
+    with open(settings.localDir + fileName) as f: fileString = f.read()
+    if fileString == 'GameDay - 404 Not Found':
         os.remove(settings.localDir + fileName)
         return -1
 
