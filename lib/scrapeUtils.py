@@ -82,6 +82,49 @@ def downloadInningFile(gameLink, segment):
     downloadFile(inningsLink, 'inning'+str(segment)+'.xml')
 
 
+#
+# Function parsePitch. should this be in a seperate parsing package.
+# This function takes a filename as a path on system
+# Outputs a CQL/SQL string for db insertion
+#
+
+def parsePitch(filename):
+
+    if not(os.path.isfile(os.path.abspath(filename))):
+        print("Filename passed to parsePitch is invalid.")
+        exit(-1)
+
+
+
+    frontSQL = "INSERT INTO PITCHES (spin_rate, pitch_type, start_speed) VALUES ("
+    backSQL = ");\n"
+    out = ""
+    stringList = []
+
+    tree = ET.parse(filename)
+    root = tree.getroot()
+
+    top = root.find('top') #get top of the inning
+
+    #iterate through at bats in top of the inning
+    for atbat in top.findall('atbat'):
+        #iterate through pitches in atbat
+
+        for pitch in atbat.findall('pitch'):
+            spin_rate = pitch.get('spin_rate')
+            pitch_type = pitch.get('pitch_type')
+            start_speed = pitch.get('start_speed')
+            catString = str(spin_rate)+','+"'"+str(pitch_type)+"'"+','+str(start_speed)
+            stringList.append(catString)
+
+
+    for stri in stringList:
+        #build SQL
+        out += frontSQL + stri + backSQL
+
+    #print(out)
+    return(out)
+
 
 #
 # Function returns a list of Dates that Jake Arrieta threw pitches in a game. This function was made
@@ -115,7 +158,7 @@ def scrapePitcherDates(refUrl):
 #
 # Function iterates through all gameFiles in ./local and prints a sentance about the game.
 # Inputs: None (Files in ./local)
-# Output: Prints Sentance stating which teams played, where they played and at what time.
+# Output: Prints Sentence stating which teams played, where they played and at what time.
 #
 
 def whoPlayed():
@@ -166,6 +209,9 @@ def main():
 
     link = 'http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/'
     downloadInningFile(link, 1)
+
+    inningLoc = '../local/inning1.xml'
+    print(parsePitch(inningLoc))
     
 if __name__ == "__main__":
     main()
