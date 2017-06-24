@@ -24,7 +24,9 @@ def downloadFile(link,fileName):
     try:
         urllib.urlretrieve(link, settings.localDir + fileName)
     except:
-        print("Could not Download File")
+        print("Could not Download File" + fileName)
+        os.remove(settings.localDir + fileName)
+        return -1
 
 #
 # Function downloads all game files for that day
@@ -76,9 +78,8 @@ def downloadInningFile(gameLink, segment):
 
     segLink = '_'+str(segment)+'.xml'
     inningsLink = gameLink + 'inning/inning' + segLink
-    #print(inningsLink)
 
-    downloadFile(inningsLink, 'inning'+str(segment)+'.xml')
+    return downloadFile(inningsLink, 'inning'+str(segment)+'.xml')
 
 #
 # Function parsePitch. should this be in a seperate parsing package.
@@ -118,7 +119,6 @@ def parsePitch(filename):
         #build SQL
         out += frontSQL + stri + backSQL
 
-    #print(out)
     return(out)
 
 #
