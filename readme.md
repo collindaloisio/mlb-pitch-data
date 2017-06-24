@@ -26,3 +26,13 @@ Indeed, we could have her look at some type of statistic, and where that happene
 
 Point being, dynamic fun scaling tools to analyze interpretivley. 
 
+###Dependent Packages
+psycopg2 : this is a postgresql Driver
+
+dse-driver : this is a cassandra Driver 
+
+
+###Standard Ports
+Postgresql - Port 5432
+
+
