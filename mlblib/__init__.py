@@ -1,1 +1,1 @@
-__all__ = ["scrapeUtils", "settings","postgre"]
+__all__ = ["scrapeUtils", "settings","postgre","config"]

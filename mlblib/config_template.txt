@@ -1,0 +1,8 @@
+#!/usr/bin/python
+
+#You need to clone this file as config.py and fill in the blanks for this package to work
+#Configurations begin with postgre_password
+
+
+
+postgre_password =

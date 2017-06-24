@@ -26,6 +26,13 @@ Indeed, we could have her look at some type of statistic, and where that happene
 
 Point being, dynamic fun scaling tools to analyze interpretivley. 
 
+
+##Project set up
+
+###Installations
+Install postgreSQL
+Install Cassandra
+
 ###Dependent Packages
 psycopg2 : this is a postgresql Driver
 
@@ -41,3 +48,4 @@ From stackechange: By the way, check out the ~/.pgpass file to store password se
 
 ###Gitignore Stuff
 Add a personalmain.py to mlb/ to do local test. Git will ignore this file
+Add a config.py that follows config_template.txt or else project will not work
