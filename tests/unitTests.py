@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import unittest
-from lib import *
+from mlblib import *
 import os
 
 ##################################################################################################################
@@ -17,6 +17,7 @@ class TestDownloads(unittest.TestCase):
 
 #Unit test of listGames.downloadInningFile
 #to pass one inning file should be saved to local dir
+    @unittest.skip("don't want to download file")
     def test_if_file_exists_downloading_InningFile(self):
         link = 'http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/'
         scrapeUtils.downloadInningFile(link,1)
