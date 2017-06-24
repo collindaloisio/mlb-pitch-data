@@ -64,12 +64,11 @@ def downloadGameFiles(dateUrl, counter):
             # Download the file and increment counter for uniqueness
             downloadFile(gameLink+'game.xml',dfileName)
 
-
 #
 # Function downloadInningFile based on link and user choice of inning or "all"
 # Inputs: gameLink - Link to the gid file at the level of YYYYMMDD link
 #        eg: http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/
-#        segment - segment of game you want to download, 1-last inning(9+) or "all" for the whole inning_all file
+#        segment - Inning of game you want to download, 1-last inning(9+) or "all" for the whole inning_all file
 # Output: Downloads specified inning file determined by gameLink_segment to working directory
 #
 
@@ -80,7 +79,6 @@ def downloadInningFile(gameLink, segment):
     #print(inningsLink)
 
     downloadFile(inningsLink, 'inning'+str(segment)+'.xml')
-
 
 #
 # Function parsePitch. should this be in a seperate parsing package.
@@ -93,8 +91,6 @@ def parsePitch(filename):
     if not(os.path.isfile(os.path.abspath(filename))):
         print("Filename passed to parsePitch is invalid.")
         exit(-1)
-
-
 
     frontSQL = "INSERT INTO PITCHES (spin_rate, pitch_type, start_speed) VALUES ("
     backSQL = ");\n"
@@ -125,7 +121,6 @@ def parsePitch(filename):
     #print(out)
     return(out)
 
-
 #
 # Function returns a list of Dates that Jake Arrieta threw pitches in a game. This function was made
 # with the intention of expaning it to work with any pitcher. Should be refactored to scrapePitcher in future
@@ -133,7 +128,6 @@ def parsePitch(filename):
 #         shows all of Jake Arrieta's games
 # Output: Returns a list object of Dates that Jake Arrieta pitched in YYYYMMDD Format
 #
-
 
 def scrapePitcherDates(refUrl):
     
@@ -152,8 +146,6 @@ def scrapePitcherDates(refUrl):
             allDates.append(str(items.contents[0])[23:31])
 
     return allDates
-
-
 
 #
 # Function iterates through all gameFiles in ./local and prints a sentance about the game.
