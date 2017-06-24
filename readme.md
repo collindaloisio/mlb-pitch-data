@@ -1,5 +1,9 @@
 #README
 
+https://xkcd.com/327/
+
+SQL Injection is very bad and we should change the way we create sql
+
 
 ###Overall Objectives of the Application:
 
