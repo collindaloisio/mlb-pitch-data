@@ -22,7 +22,7 @@ def initiateSQLdb():
     filename = settings.sqlInitiate
     sqlQuery = fetchSQL(filename)
     #We should add dbname, user, password to settings.py
-    conn = psycopg2.connect("dbname=postgres user=postgres password="+ config.postgre_password)
+    conn = psycopg2.connect("dbname=postgres user=postgres password="+ config.postgrePassword)
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT) #to allow for db creation
     cur = conn.cursor()
     print(sqlQuery)

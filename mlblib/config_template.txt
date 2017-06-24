@@ -5,4 +5,5 @@
 
 
 
-postgre_password =
+postgrePassword =
+logFile =
