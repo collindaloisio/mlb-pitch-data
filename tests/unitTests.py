@@ -1,8 +1,7 @@
 #!/usr/bin/python
 import unittest
-import lib.scrapeUtils
+from lib import *
 import os
-import lib.settings
 
 ##################################################################################################################
 # Class: TestDownloads
@@ -20,9 +19,9 @@ class TestDownloads(unittest.TestCase):
 #to pass one inning file should be saved to local dir
     def test_if_file_exists_downloading_InningFile(self):
         link = 'http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/'
-        lib.scrapeUtils.downloadInningFile(link,1)
-        self.assertTrue(os.path.isfile(os.path.abspath(lib.settings.localDir + 'inning1.xml')))
-        os.remove(os.path.abspath(lib.settings.localDir + 'inning1.xml'))
+        scrapeUtils.downloadInningFile(link,1)
+        self.assertTrue(os.path.isfile(os.path.abspath(settings.localDir + 'inning1.xml')))
+        os.remove(os.path.abspath(settings.localDir + 'inning1.xml'))
 
 
 if __name__ == "__main__":
