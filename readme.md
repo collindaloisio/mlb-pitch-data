@@ -39,4 +39,5 @@ Postgresql - Port 5432
 ###Helpful password storage
 From stackechange: By the way, check out the ~/.pgpass file to store password securely and not in the source code (http://www.postgresql.org/docs/9.2/static/libpq-pgpass.html). libpq, the postgresql client librairy, check for this file to get proper login information. It's very very handy.
 
-
+###Gitignore Stuff
+Add a personalmain.py to mlb/ to do local test. Git will ignore this file
