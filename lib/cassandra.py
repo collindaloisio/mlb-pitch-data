@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from dse.cluster import Cluster
 
 
@@ -13,13 +14,16 @@ from dse.cluster import Cluster
 ##################################################################################################################
 
 
-def connectToLocal():
+def createTable():
     cluster = Cluster()
     session = cluster.connect()
+    query = 'CREATE TABLE pitches (pitch_id varchar primary key, type int, x int, y int);'
+    session.execute(query)
 
 
 def main():
-    connectToLocal()
+    createTable()
+
 
 if __name__ == "__main__":
     main()

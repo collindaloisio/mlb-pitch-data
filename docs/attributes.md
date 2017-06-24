@@ -1,6 +1,9 @@
-Pitches
+##Pitches Table
+
+###Attributes (Columns)
+Pitcher Foreign Key (Use MLB keys)
 des
-type -- strike or ball?
+type -- strike or ball + other outcomes (foul tip? hit by pitch)
 x
 y
 start_speed
