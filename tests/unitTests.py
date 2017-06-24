@@ -25,6 +25,5 @@ class TestDownloads(unittest.TestCase):
         os.remove(os.path.abspath('../local/inning1.xml'))
 
 
-
 if __name__ == "__main__":
     unittest.main()
