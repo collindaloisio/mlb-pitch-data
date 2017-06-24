@@ -5,7 +5,9 @@ from bs4 import BeautifulSoup
 import xml.etree.ElementTree as ET
 import glob
 import os
+import settings
 import tests
+
 ##################################################################################################################
 # Class: scrapeUtils.py
 
@@ -20,9 +22,7 @@ import tests
 
 def downloadFile(link,fileName):
     try:
-        #It took me way to long to find this explicit reference to .local and change it to ../local
-        #How can we refactor accross the whole code base instead of explicit reference
-        urllib.urlretrieve(link, "../local/" + fileName)
+        urllib.urlretrieve(link, settings.localDir + fileName)
     except:
         print("Could not Download File")
 
@@ -178,40 +178,6 @@ def whoPlayed():
             nameList.append(teams)
         print(awayTeam + " played at " + homeTeam + " at " + gameTime + " Eastern Time\n")
 
-
-def main():
-    mlbSite = "http://gd2.mlb.com/components/game/mlb/"
-    referenceSite = "http://www.baseball-reference.com/players/gl.fcgi?id=arrieja01&t=p&year=2016" 
-
-    # counter = 0
-    #
-    # # Scrape the reference site to determine when Jake Arrieta Played Baseball
-    # allStarts = scrapePitcherDates(referenceSite)
-    #
-    # for date in allStarts:
-    #
-    #     #parse input
-    #     yr= date[0:4]
-    #     mon = date[4:6]
-    #     day = date[6:8]
-    #
-    #     #build name
-    #     standardName = 'year_'+yr+'/month_'+mon+'/day_'+day
-    #
-    #     #this will be the full Url for some Day
-    #     fullUrl = mlbSite+standardName
-    #
-    #     downloadGameFiles(fullUrl, counter)
-    #     counter = counter + 1
-
-    # Parse the XML files to determine who played
-    #whoPlayed()
-
-    link = 'http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/'
-    downloadInningFile(link, 1)
-
-    inningLoc = '../local/inning1.xml'
-    print(parsePitch(inningLoc))
     
 if __name__ == "__main__":
     main()
