@@ -24,6 +24,10 @@ class TestDownloads(unittest.TestCase):
         self.assertTrue(os.path.isfile(os.path.abspath(settings.localDir + 'inning1.xml')))
         os.remove(os.path.abspath(settings.localDir + 'inning1.xml'))
 
+    def test_postgre(self):
+        postgre.initiateSQLdb()
+
+
 
 if __name__ == "__main__":
     unittest.main()

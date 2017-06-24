@@ -1,9 +1,9 @@
-from mlblib import settings
+import settings
 import psycopg2
 
 
-def callSQL(filename):
-    filename = settings.localDir
+def initiateSQLdb():
+    filename = settings.sqlInitiate
     with open(filename) as f:
         sqlQuery = f.read()
     #We should add dbname, user, password to settings.py
