@@ -3,3 +3,4 @@
 .project
 *.pyc
 personalmain.py
+config.py
