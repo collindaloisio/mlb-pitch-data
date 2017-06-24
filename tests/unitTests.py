@@ -40,6 +40,9 @@ class TestDownloads(unittest.TestCase):
         self.assertEqual(scrapeUtils.downloadInningFile(link,1),-1)
         self.assertFalse(os.path.isfile(filePath + '/inning1.xml'))
 
+
+class TestDatabaseFunctionality(unittest.TestCase):
+
     @unittest.skip("Don't want to set up a database yet. This is Collin's work. Waiting for completion")
     def test_postgre(self):
         postgre.initiateSQLdb()
