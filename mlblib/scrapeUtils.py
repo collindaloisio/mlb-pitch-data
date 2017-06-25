@@ -121,6 +121,7 @@ def downloadAllInningFiles(dateUrl, counter):
 # Function parsePitch. should this be in a seperate parsing package.
 # This function takes a filename as a path on system
 # Outputs a CQL/SQL string for db insertion
+# The file must be an inning_all.xml file
 #
 
 def parsePitch(filename):
@@ -137,24 +138,26 @@ def parsePitch(filename):
     tree = ET.parse(filename)
     root = tree.getroot()
 
-    top = root.find('top') #get top of the inning
+    for inning in root.findall('inning'):
 
-    #iterate through at bats in top of the inning
-    for atbat in top.findall('atbat'):
-        #iterate through pitches in atbat
+        top = inning.find('top') # get top of the inning
 
-        for pitch in atbat.findall('pitch'):
-            spin_rate = pitch.get('spin_rate')
-            pitch_type = pitch.get('pitch_type')
-            start_speed = pitch.get('start_speed')
-            catString = str(spin_rate)+','+"'"+str(pitch_type)+"'"+','+str(start_speed)
-            stringList.append(catString)
+        # iterate through at bats in top of the inning
+        for atbat in top.findall('atbat'):
+            # iterate through pitches in atbat
+
+            for pitch in atbat.findall('pitch'):
+                spin_rate = pitch.get('spin_rate')
+                pitch_type = pitch.get('pitch_type')
+                start_speed = pitch.get('start_speed')
+                catString = str(spin_rate)+','+"'"+str(pitch_type)+"'"+','+str(start_speed)
+                stringList.append(catString)
 
 
     for stri in stringList:
-        #build SQL
+        # build SQL
         out += frontSQL + stri + backSQL
-
+    print(str(out))
     return(out)
 
 #
