@@ -41,6 +41,11 @@ Install Cassandra
 pip install psycopg2 : this is a postgresql Driver
 
 pip install dse-driver : this is a cassandra Driver
+    If this doesn't work follow these steps:
+    
+    1. git clone https://github.com/datastax/python-dse-driver
+    2. Go into the repository and run: sudo python ez_setup.py install
+  
 
 
 ###Standard Ports
