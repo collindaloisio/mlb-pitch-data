@@ -86,6 +86,37 @@ def downloadInningFile(gameLink, segment):
 
     return downloadFile(inningsLink, 'inning'+str(segment)+'.xml')
 
+
+# Pardo's version of downloding inning files
+# this function downloads all inning_all.xml files for all games on a given day
+
+def downloadAllInningFiles(dateUrl, counter):
+
+    print("Downloading File " + str(counter))
+
+    # Establish URL connection
+    try:
+        f = urllib.urlopen(dateUrl)
+    except:
+        print("Could not establish connection to MLB website. Check internet connectivity")
+        exit(-1)
+
+    # Spin up instance of beautiful soup html parser
+    soup = BeautifulSoup(f, 'html.parser')
+
+    # For all links in the html file that have the substring "GID"...
+    # This is for handling double headers
+    for link in soup.find_all("a", string=re.compile("gid")):
+        print(str(link))
+        # Create fileName for file stored locally,
+        dfileName = 'inningFile' + str(counter) + '.xml'
+        # Create the URL for the specific file you want
+        gameLink = dateUrl + '/' + link.get('href')
+        # Open file URL for specific game and download game.xml file
+        # Currently only downlods the inning_all.xml
+        downloadFile(gameLink+'inning/inning_all.xml', dfileName)
+        counter += 1
+
 #
 # Function parsePitch. should this be in a seperate parsing package.
 # This function takes a filename as a path on system
