@@ -126,9 +126,15 @@ def downloadAllInningFiles(dateUrl, counter):
 
 def parsePitch(filename):
 
-    if not(os.path.isfile(os.path.abspath(filename))):
-        print("Filename passed to parsePitch is invalid.")
-        exit(-1)
+    if (os.path.isfile(os.path.abspath(filename))):
+        try:
+            tree = ET.parse(filename)
+        except:
+            "Not a valid XML file or string"
+            exit(-1)
+    else:
+        tree = ET.fromstring(filename)
+
 
     frontSQL = "INSERT INTO PITCHES (spin_rate, pitch_type, start_speed) VALUES ("
     backSQL = ");\n"
