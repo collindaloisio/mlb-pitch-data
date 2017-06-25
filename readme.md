@@ -3,7 +3,8 @@
 https://xkcd.com/327/
 
 SQL Injection is very bad and we should change the way we create sql
-
+    - Nah I think you're ok man. We just need to make sure we sanitize our sql. We can make unit tests to ensure the
+    function handles sql injections properly.
 
 ###Overall Objectives of the Application:
 
@@ -15,7 +16,6 @@ algorithms, the algorithm should be able to predict the location and type of pit
 
 
 Below is something Collin wrote a long time ago before we discussed this project.
-
 
 ###Design Plans
 
@@ -30,8 +30,8 @@ Indeed, we could have her look at some type of statistic, and where that happene
 
 Point being, dynamic fun scaling tools to analyze interpretivley. 
 
-
 ##Project set up
+
 Create config.py as per config_template.txt
 
 ###Installations
@@ -41,16 +41,36 @@ Install Cassandra
 ###Dependent Packages
 pip install psycopg2 : this is a postgresql Driver
 
-pip install dse-driver : this is a cassandra Driver 
+pip install dse-driver : this is a cassandra Driver
 
 
 ###Standard Ports
 Set up Postgresql on Port 5432
-
 
 ###Gitignore Stuff
 Add a personalmain.py to mlb/ to do local test. Git will ignore this file
 Add a config.py that follows config_template.txt or else project will not work
 
 ###Helpful password storage
-From stackechange: By the way, check out the ~/.pgpass file to store password securely and not in the source code (http://www.postgresql.org/docs/9.2/static/libpq-pgpass.html). libpq, the postgresql client librairy, check for this file to get proper login information. It's very very handy.
+From stackechange: By the way, check out the ~/.pgpass file to store password securely and not
+in the source code (http://www.postgresql.org/docs/9.2/static/libpq-pgpass.html). libpq, the postgresql client librairy,
+check for this file to get proper login information. It's very very handy.
+
+##Current Overview
+We have decided to break the project up into modules. This will allow us to import the libraries that we
+have created and cleanly use them in the higher level iteration of our project. The Package has been named
+mlblib. Inside mlblib, we have the following modules:
+   __postgre__ - This is a module that contains functions used for creating/updating our database.
+   __cassandra__ - This is a module that contains functions for creating/updating a cassandra db. Seems as if this will be scrapped.
+   __scrapeUtils__ - This is a module that contains functions used in scraping, and parsing data from our various data sources.
+
+The mlblib is interpreted as a package by python because it contains the __init__.py file. Within this file we have the line
+' __all__ = ["scrapeUtils", "settings","postgre","config"] '
+This line indicates which modules will be included when someone uses the line 
+'from mlblib import *' 
+In addition to these modules, the mlblib package directory contains a settings.py file and a config.py file. The settings.py
+file currently contains global variables such that they don't need to be referenced everywhere throughout the code. I believe
+we are unhappy with this implementation right now. The config.py file is an environmental config file. Since everyone's
+environment will be different, this file contains environmental specific varriables that each user of this code base must fill out.
+It contains the postgrePassword and logFile variables. The postgrePassword is whatever password that connects you to your local
+postgres database. The logFile is to specify where you would like the program to write a log to (not implemented currently).
