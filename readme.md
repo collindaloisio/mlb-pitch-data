@@ -40,7 +40,17 @@ Install Cassandra
 ###Dependent Packages
 pip install psycopg2 : this is a postgresql Driver
 
-pip install dse-driver : this is a cassandra Driver
+pip install dse-driver : this is a cassandra Driver:
+
+    1: Pepe is a little boy
+    2: Jphn
+      * Johoh
+      * test
+    4: Jpjp
+    
+Dick hole
+    
+
 
 
 ###Standard Ports
