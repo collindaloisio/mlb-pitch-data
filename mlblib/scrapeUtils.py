@@ -107,9 +107,10 @@ def downloadAllInningFiles(dateUrl, counter):
     # For all links in the html file that have the substring "GID"...
     # This is for handling double headers
     for link in soup.find_all("a", string=re.compile("gid")):
-        print(str(link))
+        print(type(link.get('href')))
+        print(str(link.get('href')[0:28]))
         # Create fileName for file stored locally,
-        dfileName = 'inningFile' + str(counter) + '.xml'
+        dfileName = 'inningFile_' + str(link.get('href')[0:29]) + str(counter) + '.xml'
         # Create the URL for the specific file you want
         gameLink = dateUrl + '/' + link.get('href')
         # Open file URL for specific game and download game.xml file
@@ -137,7 +138,7 @@ def parsePitch(filename):
 
 
     frontSQL = "INSERT INTO PITCHES (pitcher_id, spin_rate, pitch_type, start_speed, end_speed, nasty, " \
-               "outcome_shorthand, atbat_num, outcome) VALUES ("
+               "outcome_shorthand, atbat_num, outcome, game_id) VALUES ("
     backSQL = ");"
     out = ""
     stringList = []
@@ -145,6 +146,10 @@ def parsePitch(filename):
 
     tree = ET.parse(filename)
     root = tree.getroot()
+
+    #keeps a game id to be used in primary key
+    game_id = str(filename)[20:48]
+
 
     for inning in root.findall('inning'):
 
@@ -166,7 +171,7 @@ def parsePitch(filename):
                 outcome_shorthand = pitch.get('type')
                 catString = str(pitcher_id)+','+str(spin_rate)+','+"'"+str(pitch_type)+"'"+','+str(start_speed)+',' + \
                             str(end_speed)+','+str(nasty)+','+"'"+str(outcome_shorthand)+"'"+','+str(atbat_num)+','\
-                            +"'"+str(outcome)+"'"
+                            +"'"+str(outcome)+"'"+','+"'"+game_id+"'"
                 stringList.append(catString)
 
 
@@ -174,7 +179,6 @@ def parsePitch(filename):
     for stri in stringList:
         # build SQL
         out = frontSQL + stri + backSQL
-        print(out)
         outList.append(out)
     return(outList)
 

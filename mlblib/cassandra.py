@@ -16,18 +16,18 @@ def createTable():
     keyspace = "pitch_test"
     session = cluster.connect(keyspace)
 
+    #session.execute('DROP TABLE PITCHES')
     #---Use this code to make your initial pitch table---
-    #make_table = session.execute('CREATE TABLE PITCHES (atbat_num int PRIMARY KEY, pitcher_id int, spin_rate float, '
+    #make_table = session.execute('CREATE TABLE PITCHES (game_id text, atbat_num int, pitcher_id int, spin_rate float, '
     #                             'pitch_type text, start_speed float, end_speed float, nasty int, '
-    #                             'outcome_shorthand text, outcome text)')
+    #                             'outcome_shorthand text, outcome text, PRIMARY KEY(game_id, atbat_num));')
 
 
     #---This line will insert pitch data into your table for a given inning file---
-    #---Currently, the primary key is the atbat_num, we should look into using something better---
-    #data = scrapeUtils.parsePitch(settings.localDir+'inningFile0.xml')
-    #for line in data:
-    #    print(line)
-    #    session.execute(line)
+    #---Currently, the primary key is the atbat_num, and the game_id---
+    data = scrapeUtils.parsePitch(settings.localDir+'inningFile_gid_2016_07_01_anamlb_bosmlb_0.xml')
+    for line in data:
+        session.execute(line)
 
     #---this will just select some data and spit it out---
     connection = session.execute('SELECT * FROM pitches LIMIT 5')
