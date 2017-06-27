@@ -1,5 +1,6 @@
 #!/usr/bin/python
 from dse.cluster import Cluster
+from mlblib import *
 
 ##################################################################################################################
 # Class: Cassandra
@@ -14,9 +15,25 @@ def createTable():
     cluster = Cluster()
     keyspace = "pitch_test"
     session = cluster.connect(keyspace)
-    connection = connection.execute('SELECT * FROM pitches LIMIT 5')
-    for pitch in pitches:
-        print("Pitcher ID %d - %s" % (pitch.pitcher_id, pitch.pitch_type))
+
+    #---Use this code to make your initial pitch table---
+    #make_table = session.execute('CREATE TABLE PITCHES (atbat_num int PRIMARY KEY, pitcher_id int, spin_rate float, '
+    #                             'pitch_type text, start_speed float, end_speed float, nasty int, '
+    #                             'outcome_shorthand text, outcome text)')
+
+
+    #---This line will insert pitch data into your table for a given inning file---
+    #---Currently, the primary key is the atbat_num, we should look into using something better---
+    #data = scrapeUtils.parsePitch(settings.localDir+'inningFile0.xml')
+    #for line in data:
+    #    print(line)
+    #    session.execute(line)
+
+    #---this will just select some data and spit it out---
+    connection = session.execute('SELECT * FROM pitches LIMIT 5')
+
+    for pitch in connection:
+        print("Pitcher ID %s - %s" % (pitch.pitcher_id, pitch.pitch_type))
 
 
 def main():

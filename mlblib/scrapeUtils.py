@@ -137,10 +137,11 @@ def parsePitch(filename):
 
 
     frontSQL = "INSERT INTO PITCHES (pitcher_id, spin_rate, pitch_type, start_speed, end_speed, nasty, " \
-               "outcome_shorthand, outcome) VALUES ("
-    backSQL = ");\n"
+               "outcome_shorthand, atbat_num, outcome) VALUES ("
+    backSQL = ");"
     out = ""
     stringList = []
+    outList = []
 
     tree = ET.parse(filename)
     root = tree.getroot()
@@ -152,6 +153,7 @@ def parsePitch(filename):
         # iterate through at bats in top of the inning
         for atbat in top.findall('atbat'):
             pitcher_id = atbat.get('pitcher')
+            atbat_num = atbat.get('num')
 
             # iterate through pitches in atbat
             for pitch in atbat.findall('pitch'):
@@ -163,16 +165,19 @@ def parsePitch(filename):
                 nasty = pitch.get('nasty')
                 outcome_shorthand = pitch.get('type')
                 catString = str(pitcher_id)+','+str(spin_rate)+','+"'"+str(pitch_type)+"'"+','+str(start_speed)+',' + \
-                            str(end_speed)+','+str(nasty)+','+"'"+str(outcome_shorthand)+"'"+','+"'"+str(outcome)+"'"
+                            str(end_speed)+','+str(nasty)+','+"'"+str(outcome_shorthand)+"'"+','+str(atbat_num)+','\
+                            +"'"+str(outcome)+"'"
                 stringList.append(catString)
-                print(catString)
+
 
 
     for stri in stringList:
         # build SQL
-        out += frontSQL + stri + backSQL
-    print(str(out))
-    return(out)
+        out = frontSQL + stri + backSQL
+        print(out)
+        outList.append(out)
+    return(outList)
+
 
 #
 # Function returns a list of Dates that Jake Arrieta threw pitches in a game. This function was made

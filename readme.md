@@ -47,7 +47,6 @@ pip install dse-driver : this is a cassandra Driver
     1. git clone https://github.com/datastax/python-dse-driver
     2. Go into the repository and run: sudo python ez_setup.py install
   
-pip install cql
 
 ###Standard Ports
 Set up Postgresql on Port 5432
