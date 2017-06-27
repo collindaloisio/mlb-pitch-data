@@ -136,7 +136,8 @@ def parsePitch(filename):
         tree = ET.fromstring(filename)
 
 
-    frontSQL = "INSERT INTO PITCHES (spin_rate, pitch_type, start_speed) VALUES ("
+    frontSQL = "INSERT INTO PITCHES (pitcher_id, spin_rate, pitch_type, start_speed, end_speed, nasty, " \
+               "outcome_shorthand, outcome) VALUES ("
     backSQL = ");\n"
     out = ""
     stringList = []
@@ -160,9 +161,9 @@ def parsePitch(filename):
                 end_speed = pitch.get('end_speed')
                 outcome = pitch.get('des')
                 nasty = pitch.get('nasty')
-                outcome_pitch = pitch.get('type')
+                outcome_shorthand = pitch.get('type')
                 catString = str(pitcher_id)+','+str(spin_rate)+','+"'"+str(pitch_type)+"'"+','+str(start_speed)+',' + \
-                            str(end_speed)+','+str(nasty)+','+"'"+str(outcome_pitch)+"'"+','+"'"+str(outcome)+"'"
+                            str(end_speed)+','+str(nasty)+','+"'"+str(outcome_shorthand)+"'"+','+"'"+str(outcome)+"'"
                 stringList.append(catString)
                 print(catString)
 
