@@ -57,15 +57,15 @@ Setup cassandra:
      1. Run ./cqlsh in the cassandra bin
      2. In cqlsh say: 
         CREATE KEYSPACE pitch_test with replication = {'class': 'SimpleStrategy', 'replication_factor' :1};
-     3. Go to cassandra.py and uncomment lines 20-23 and 27-29
-        This will create your table and insert some data feel free to use another inningfile
-     4. Re-comment lines 20-23 and 27-29 becasue the table has already been created
+     3. Run cassandra.createTable()
+     4. Download inning files using downloadAllInningFiles
+     5. Run cassandra.insertData either use the code below for all files or choose one that you'd like to use
 
 creatTable now takes a file name, if you want to iterate across all files in local use this code in main:
 
      for files in os.listdir(settings.localDir):
      if files.endswith('.xml'):
-         cassandra.createTable(files)
+         cassandra.insertData(files)
      else:
          continue
 

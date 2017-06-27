@@ -60,7 +60,7 @@ class TestDatabaseFunctionality(unittest.TestCase):
     #should improve this test
     @unittest.skip("Don't want to set up a database yet. This is Collin's work. Waiting for completion")
     def test_cassandra(self):
-        self.assertTrue(cassandra.createTable() is not None)
+        self.assertTrue(cassandra.testData() is not None)
 
 if __name__ == "__main__":
     unittest.main()

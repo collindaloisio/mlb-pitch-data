@@ -11,23 +11,35 @@ from mlblib import *
 ##################################################################################################################
 
 
-def createTable(fileName):
+def createTable():
     cluster = Cluster()
     keyspace = "pitch_test"
     session = cluster.connect(keyspace)
 
     #---Use this code to make your initial pitch table---
-    #make_table = session.execute('CREATE TABLE PITCHES (game_id text, atbat_num int, pitcher_id int, spin_rate float, '
-    #                             'pitch_type text, start_speed float, end_speed float, nasty int, '
-    #                             'outcome_shorthand text, outcome text, inning_num int, p_num int,'
-    #                             'outs_after_bat int, PRIMARY KEY(game_id, inning_num, p_num));')
+    session.execute('CREATE TABLE PITCHES (game_id text, atbat_num int, pitcher_id int, spin_rate float, '
+                    'pitch_type text, start_speed float, end_speed float, nasty int, '
+                    'outcome_shorthand text, outcome text, inning_num int, p_num int,'
+                    'outs_after_bat int, PRIMARY KEY(game_id, inning_num, p_num));')
 
+def insertData(fileName):
     #---This line will insert pitch data into your table for a given inning file---
     #---Currently, the primary key is the atbat_num, and the game_id---
-    #data = scrapeUtils.parsePitch(settings.localDir+fileName)
-    #for line in data:
-    #    session.execute(line)
 
+    #not sure if this is redundant or necessary should look into it
+    cluster = Cluster()
+    keyspace = "pitch_test"
+    session = cluster.connect(keyspace)
+
+    data = scrapeUtils.parsePitch(settings.localDir+fileName)
+    for line in data:
+        session.execute(line)
+
+
+def testData():
+    cluster = Cluster()
+    keyspace = "pitch_test"
+    session = cluster.connect(keyspace)
     #---this will just select some data and spit it out, currently used in test---
     connection = session.execute('SELECT * FROM pitches LIMIT 5')
     pitchList = []
@@ -37,6 +49,9 @@ def createTable(fileName):
         print(pitchList)
         #print("Pitcher ID %s - %s" % (pitch.pitcher_id, pitch.pitch_type))
     return(pitchList)
+
+
+
 
 def main():
     createTable()
