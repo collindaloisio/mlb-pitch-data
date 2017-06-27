@@ -4,6 +4,10 @@ https://xkcd.com/327/
 
 https://fastballs.wordpress.com/2010/04/18/a-pitchfx-primer/
 
+Introduction to Statistical Learning
+
+http://www-bcf.usc.edu/~gareth/ISL/ISLR%20First%20Printing.pdf
+
 
 ###Overall Objectives of the Application:
 
@@ -61,7 +65,7 @@ Setup cassandra:
      4. Download inning files using downloadAllInningFiles
      5. Run cassandra.insertData either use the code below for all files or choose one that you'd like to use
 
-creatTable now takes a file name, if you want to iterate across all files in local use this code in main:
+If you want to iterate across all files in local use this code in main:
 
      for files in os.listdir(settings.localDir):
      if files.endswith('.xml'):
