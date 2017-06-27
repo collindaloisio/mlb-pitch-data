@@ -150,14 +150,21 @@ def parsePitch(filename):
 
         # iterate through at bats in top of the inning
         for atbat in top.findall('atbat'):
-            # iterate through pitches in atbat
+            pitcher_id = atbat.get('pitcher')
 
+            # iterate through pitches in atbat
             for pitch in atbat.findall('pitch'):
                 spin_rate = pitch.get('spin_rate')
                 pitch_type = pitch.get('pitch_type')
                 start_speed = pitch.get('start_speed')
-                catString = str(spin_rate)+','+"'"+str(pitch_type)+"'"+','+str(start_speed)
+                end_speed = pitch.get('end_speed')
+                outcome = pitch.get('des')
+                nasty = pitch.get('nasty')
+                outcome_pitch = pitch.get('type')
+                catString = str(pitcher_id)+','+str(spin_rate)+','+"'"+str(pitch_type)+"'"+','+str(start_speed)+',' + \
+                            str(end_speed)+','+str(nasty)+','+"'"+str(outcome_pitch)+"'"+','+"'"+str(outcome)+"'"
                 stringList.append(catString)
+                print(catString)
 
 
     for stri in stringList:
