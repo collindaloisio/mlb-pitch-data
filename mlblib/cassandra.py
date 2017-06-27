@@ -32,9 +32,13 @@ def createTable():
     #---this will just select some data and spit it out---
     connection = session.execute('SELECT * FROM pitches LIMIT 5')
 
+    pitchList = []
     for pitch in connection:
-        print("Pitcher ID %s - %s" % (pitch.pitcher_id, pitch.pitch_type))
-
+        foo = str("Pitcher ID %s - %s" % (pitch.pitcher_id, pitch.pitch_type))
+        pitchList.append(foo)
+        print(pitchList)
+        #print("Pitcher ID %s - %s" % (pitch.pitcher_id, pitch.pitch_type))
+    return(pitchList)
 
 def main():
     createTable()

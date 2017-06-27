@@ -51,6 +51,16 @@ pip install dse-driver : this is a cassandra Driver
 ###Standard Ports
 Set up Postgresql on Port 5432
 
+###Cassandra Setup
+Setup cassandra:
+
+     1. Run ./cqlsh in the cassandra bin
+     2. In cqlsh say: 
+        CREATE KEYSPACE pitch_test with replication = {'class': 'SimpleStrategy', 'replication_factor' :1};
+     3. Go to cassandra.py and uncomment lines 20-22 and 27-30
+        This will create your table and insert some data feel free to use another inningfile
+     4. Re-comment lines 20-22 and 27-30 becasue the table has already been created
+
 ###Gitignore Stuff
 Add a personalmain.py to mlb/ to do local test. Git will ignore this file
 Add a config.py that follows config_template.txt or else project will not work
