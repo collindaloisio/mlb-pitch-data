@@ -11,7 +11,7 @@ from mlblib import *
 ##################################################################################################################
 
 
-def createTable():
+def createTable(fileName):
     cluster = Cluster()
     keyspace = "pitch_test"
     session = cluster.connect(keyspace)
@@ -26,7 +26,8 @@ def createTable():
 
     #---This line will insert pitch data into your table for a given inning file---
     #---Currently, the primary key is the atbat_num, and the game_id---
-    data = scrapeUtils.parsePitch(settings.localDir+'inningFile_gid_2016_07_01_anamlb_bosmlb_0.xml')
+    data = scrapeUtils.parsePitch(settings.localDir+fileName)
+
     for line in data:
         session.execute(line)
 
