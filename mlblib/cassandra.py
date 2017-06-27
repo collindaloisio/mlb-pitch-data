@@ -20,7 +20,8 @@ def createTable():
     #---Use this code to make your initial pitch table---
     #make_table = session.execute('CREATE TABLE PITCHES (game_id text, atbat_num int, pitcher_id int, spin_rate float, '
     #                             'pitch_type text, start_speed float, end_speed float, nasty int, '
-    #                             'outcome_shorthand text, outcome text, PRIMARY KEY(game_id, atbat_num));')
+    #                             'outcome_shorthand text, outcome text, inning_num int, p_num int,'
+    #                             'outs_after_bat int, PRIMARY KEY(game_id, inning_num, p_num));')
 
 
     #---This line will insert pitch data into your table for a given inning file---

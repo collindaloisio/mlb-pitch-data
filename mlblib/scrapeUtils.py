@@ -138,9 +138,8 @@ def parsePitch(filename):
 
 
     frontSQL = "INSERT INTO PITCHES (pitcher_id, spin_rate, pitch_type, start_speed, end_speed, nasty, " \
-               "outcome_shorthand, atbat_num, outcome, game_id) VALUES ("
+               "outcome_shorthand, atbat_num, outcome, game_id, p_num, inning_num, outs_after_bat) VALUES ("
     backSQL = ");"
-    out = ""
     stringList = []
     outList = []
 
@@ -153,12 +152,14 @@ def parsePitch(filename):
 
     for inning in root.findall('inning'):
 
-        top = inning.find('top') # get top of the inning
+        inning_num = inning.get('num') # get inning number
 
         # iterate through at bats in top of the inning
-        for atbat in top.findall('atbat'):
+        for atbat in inning.iter('atbat'):
             pitcher_id = atbat.get('pitcher')
             atbat_num = atbat.get('num')
+            outs_after_bat = atbat.get('o') # how many outs after the batter bats
+
 
             # iterate through pitches in atbat
             for pitch in atbat.findall('pitch'):
@@ -169,9 +170,12 @@ def parsePitch(filename):
                 outcome = pitch.get('des')
                 nasty = pitch.get('nasty')
                 outcome_shorthand = pitch.get('type')
+                p_num = pitch.get('id') # these increment weird, can't really discern the pattern
+
                 catString = str(pitcher_id)+','+str(spin_rate)+','+"'"+str(pitch_type)+"'"+','+str(start_speed)+',' + \
                             str(end_speed)+','+str(nasty)+','+"'"+str(outcome_shorthand)+"'"+','+str(atbat_num)+','\
-                            +"'"+str(outcome)+"'"+','+"'"+game_id+"'"
+                            +"'"+str(outcome)+"'"+','+"'"+game_id+"'"+','+str(p_num)+','+str(inning_num)+','+ \
+                            str(outs_after_bat)
                 stringList.append(catString)
 
 
