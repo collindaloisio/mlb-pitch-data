@@ -13,6 +13,13 @@ import re
 ##################################################################################################################
 
 
+def fetchCQL(filename):
+    with open(filename) as f:
+        cqlQuery = f.read()
+    return cqlQuery
+
+
+
 def createKeyspace(keyspaceInput):
     cluster = Cluster()
     keyspace = keyspaceInput
@@ -20,18 +27,17 @@ def createKeyspace(keyspaceInput):
     session.execute('CREATE KEYSPACE ' + str(keyspaceInput) + " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };")
 
 
-#creates a table and insterts it into a keyspace:k
-
-def createTable(table, k):
+#
+# Input: table (name of table), keyspace (name of keyspace)
+# Creates a table and inserts it into a keyspace
+#
+def createTable(k):
     cluster = Cluster()
     keyspace = k
     session = cluster.connect(keyspace)
 
     #---Use this code to make your initial pitch table---
-    session.execute('CREATE TABLE ' + str(table) + ' (game_id text, atbat_num int, pitcher_id int, spin_rate float, '
-                    'pitch_type text, start_speed float, end_speed float, nasty int, '
-                    'outcome_shorthand text, outcome text, inning_num int, p_num int,'
-                    'outs_after_bat int, PRIMARY KEY(game_id, inning_num, p_num));')
+    session.execute(fetchCQL(settings.sqlDir+'CQL_test.cql'))
 
 #inserts data from a filename and into a keyspace: k and a table: table
 
@@ -73,6 +79,10 @@ def selectPitcher(k, table, pitcher):
     for pitch in data:
         if pitch.pitcher_id == pitcher:
             print(str(pitch))
+
+
+
+
 
 
 
