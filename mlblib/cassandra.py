@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from dse.cluster import Cluster
-from mlblib import *
+import settings
+import scrapeUtils
 import re
 
 ##################################################################################################################
@@ -62,6 +63,16 @@ def testData(k):
         #print("Pitcher ID %s - %s" % (pitch.pitcher_id, pitch.pitch_type))
     return(pitchList)
 
+
+def selectPitcher(k, table, pitcher):
+    cluster = Cluster()
+    keyspace = k
+    session = cluster.connect(keyspace)
+
+    data = session.execute('SELECT * FROM ' + str(table))
+    for pitch in data:
+        if pitch.pitcher_id == pitcher:
+            print(str(pitch))
 
 
 
