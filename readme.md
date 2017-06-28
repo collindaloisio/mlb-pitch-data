@@ -49,7 +49,12 @@ pip install dse-driver : this is a cassandra Driver
     If this doesn't work follow these steps:
     
     1. git clone https://github.com/datastax/python-dse-driver
-    2. Go into the repository and run: sudo python ez_setup.py install
+    2. Go into the repository and run: 
+         sudo python setup.py build
+         sudo python setup.py install
+    3. You should now have a dse-driver v2.1.0
+    3. If you are still having issues related to importing a "loading" module from django,
+    uninstall dse package. dse-driver package and dse package are different. 
   
 
 ###Standard Ports
