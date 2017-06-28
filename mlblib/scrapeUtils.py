@@ -123,9 +123,9 @@ def downloadAllInningFiles(dateUrl, counter):
 # This function takes a filename as a path on system
 # Outputs a CQL/SQL string for db insertion
 # The file must be an inning_all.xml file
-#
+# It also requires a tablename for which you want to insert the data
 
-def parsePitch(filename):
+def parsePitch(filename, table):
 
     if (os.path.isfile(os.path.abspath(filename))):
         try:
@@ -137,7 +137,7 @@ def parsePitch(filename):
         tree = ET.fromstring(filename)
 
 
-    frontSQL = "INSERT INTO PITCHES (pitcher_id, spin_rate, pitch_type, start_speed, end_speed, nasty, " \
+    frontSQL = "INSERT INTO " + str(table) + " (pitcher_id, spin_rate, pitch_type, start_speed, end_speed, nasty, " \
                "outcome_shorthand, atbat_num, outcome, game_id, p_num, inning_num, outs_after_bat) VALUES ("
     backSQL = ");"
     stringList = []

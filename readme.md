@@ -39,8 +39,8 @@ Create config.py as per config_template.txt
 
 ###Installations
 Install postgreSQL
+
 Install Cassandra
-Install cql
 
 ###Dependent Packages
 pip install psycopg2 : this is a postgresql Driver
@@ -63,12 +63,13 @@ Set up Postgresql on Port 5432
 ###Cassandra Setup
 Setup cassandra:
 
-     1. Run ./cqlsh in the cassandra bin
-     2. In cqlsh say: 
+     1. Run ./cassandra
+     2. Run ./cqlsh in the cassandra bin
+     3. In cqlsh say: 
         CREATE KEYSPACE pitch_test with replication = {'class': 'SimpleStrategy', 'replication_factor' :1};
-     3. Run cassandra.createTable()
-     4. Download inning files using downloadAllInningFiles
-     5. Run cassandra.insertData either use the code below for all files or choose one that you'd like to use
+     4. Run cassandra.createTable()
+     5. Download inning files using downloadAllInningFiles
+     6. Run cassandra.insertData either use the code below for all files or choose one that you'd like to use
 
 If you want to iterate across all files in local use this code in main:
 
@@ -80,6 +81,7 @@ If you want to iterate across all files in local use this code in main:
 
 ###Gitignore Stuff
 Add a personalmain.py to mlb/ to do local test. Git will ignore this file
+
 Add a config.py that follows config_template.txt or else project will not work
 
 ###Helpful password storage
