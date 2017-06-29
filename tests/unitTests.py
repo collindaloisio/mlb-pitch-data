@@ -53,12 +53,12 @@ class TestDownloads(unittest.TestCase):
 
 class TestDatabaseFunctionality(unittest.TestCase):
 
-    @unittest.skip("Don't want to set up a database yet. This is Collin's work. Waiting for completion")
+    @unittest.skip("Don't want to set up a database yet. This is Patricia's work. Waiting for completion")
     def test_postgre(self):
         postgre.initiateSQLdb()
 
     #should improve this test
-    @unittest.skip("Don't want to set up a database yet. This is Collin's work. Waiting for completion")
+    @unittest.skip("Don't want to set up a database yet. This is Pranscilla's work. Waiting for completion")
     def test_cassandra(self):
         self.assertTrue(cassandra.testData() is not None)
 
