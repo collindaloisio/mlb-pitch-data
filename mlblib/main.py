@@ -14,7 +14,7 @@ def main():
     #scrapeUtils.parsePitch(settings.localDir+"inningFile0.xml")
     for files in os.listdir(settings.localDir):
         if files.endswith('.xml'):
-            cassandra.insertData(files)
+            cassandra.insertData(files,'pitch_test','pitches')
         else:
             continue
 
