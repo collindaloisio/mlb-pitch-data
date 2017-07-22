@@ -120,6 +120,7 @@ def downloadAllInningFiles(date):
 # Outputs a CQL/SQL string for db insertion
 # The file must be an inning_all.xml file
 # It also requires a tablename for which you want to insert the data
+#
 
 def parsePitch(filename, table):
 
@@ -131,7 +132,6 @@ def parsePitch(filename, table):
             exit(-1)
     else:
         tree = ET.fromstring(filename)
-
 
     frontSQL = "INSERT INTO " + str(table) + " (pitcher_id, spin_rate, pitch_type, start_speed, end_speed, nasty, " \
                "outcome_shorthand, atbat_num, outcome, game_id, p_num, inning_num, outs_after_bat) VALUES ("
@@ -145,7 +145,6 @@ def parsePitch(filename, table):
     #keeps a game id to be used in primary key
     game_id = str(filename)[20:48]
 
-
     for inning in root.findall('inning'):
 
         inning_num = inning.get('num') # get inning number
@@ -155,7 +154,6 @@ def parsePitch(filename, table):
             pitcher_id = atbat.get('pitcher')
             atbat_num = atbat.get('num')
             outs_after_bat = atbat.get('o') # how many outs after the batter bats
-
 
             # iterate through pitches in atbat
             for pitch in atbat.findall('pitch'):
@@ -174,37 +172,8 @@ def parsePitch(filename, table):
                             str(outs_after_bat)
                 stringList.append(catString)
 
-
-
     for stri in stringList:
         # build SQL
         out = frontSQL + stri + backSQL
         outList.append(out)
     return(outList)
-
-
-#
-# Function returns a list of Dates that Jake Arrieta threw pitches in a game. This function was made
-# with the intention of expaning it to work with any pitcher. Should be refactored to scrapePitcher in future
-# Inputs: refUrl - This is the link to the website baseball-reference.com that
-#         shows all of Jake Arrieta's games
-# Output: Returns a list object of Dates that Jake Arrieta pitched in YYYYMMDD Format
-#
-
-def scrapePitcherDates(refUrl):
-    
-    try:
-        f = urllib.urlopen(refUrl)
-    except:
-        print("Could not establish connection to MLB reference site. Please check internet connectivity")    
-        exit(-1)
-
-    soup = BeautifulSoup(f, 'html.parser')
-
-    allDates = []
-
-    for items in soup.find_all("td", attrs={'data-stat':'date_game'}):
-        if len(str(items.contents)) > 6:
-            allDates.append(str(items.contents[0])[23:31])
-
-    return allDates
