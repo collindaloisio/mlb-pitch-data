@@ -82,14 +82,12 @@ def downloadAllInningFiles(date):
 
     year = date[0:4]
     month = date[4:6]
-    day = date[6:9]
-
-    dateUrl = "http://gd2.mlb.com/components/game/mlb/year_" + year + "/month_" + month + "/day_" + day + "/"
+    day = date[6:8]
+    dateUrl = "http://gd2.mlb.com/components/game/mlb/year_" + year + "/month_" + month + "/day_" + day
 
     counter = 0
 
-    print("Downloading File " + str(counter))
-
+    print("Downloading Files:")
     # Establish URL connection
     try:
         f = urllib.urlopen(dateUrl)
@@ -103,7 +101,6 @@ def downloadAllInningFiles(date):
     # For all links in the html file that have the substring "GID"...
     # This is for handling double headers
     for link in soup.find_all("a", string=re.compile("gid")):
-        print(type(link.get('href')))
         print(str(link.get('href')[0:28]))
         # Create fileName for file stored locally,
         dfileName = 'inningFile_' + str(link.get('href')[0:29]) + str(counter) + '.xml'
@@ -113,6 +110,81 @@ def downloadAllInningFiles(date):
         # Currently only downlods the inning_all.xml
         downloadFile(gameLink+'inning/inning_all.xml', dfileName)
         counter += 1
+
+
+#Function floatwrapper returns -1 when there is nothing in the field
+#we should almost certainly deal with this differently
+def floatwrapper(str):
+    if (str is None) | (str == ''):
+        return -1
+    else:
+        return float(str)
+
+#Function intwrapper returns -1 when there is nothing in the field
+#we should almost certainly deal with this differently
+def intwrapper(str):
+    if (str is None) | (str == ''):
+        return -1
+    else:
+        return int(str)
+
+
+
+
+#Function parsePitchRewrite is a refactoring of parsepitch that is more scalable and mutable
+#Instead of returning a complicated string that we in turn insert into the database, we return a
+#list of tuples. Effectively we are returning a mock table for one day's game data.
+#Each tuple in the list represents one row of data to insert.
+#To insert the whole list of tuples, we iterate through the list and insert each tuple into database one at
+#a time.
+#In DB package, we will actually batch insert the tuple list as it is fairly simple to do.
+#Then, we can open ONE session, call parsePitchRewrite on as many files as we like to insert data for all files
+#filename parameter needs to be like: settings.localDir + file
+def parsePitchRewrite(filename):
+    tree = ET.parse(filename)
+    root = tree.getroot()
+    game_id = str(filename)[20:48]
+    tuplList = []
+
+    for inning in root.findall('inning'):
+        inning_num = intwrapper(inning.get('num'))
+
+        # iterate through at bats in top of the inning
+        for atbat in inning.iter('atbat'):
+            pitcher_id = intwrapper(atbat.get('pitcher'))
+            atbat_num = intwrapper(atbat.get('num'))
+            outs_after_bat = intwrapper(atbat.get('o')) # how many outs after the batter bats
+
+
+            # iterate through pitches in atbat
+            for pitch in atbat.findall('pitch'):
+                spin_rate = floatwrapper(pitch.get('spin_rate'))
+                pitch_type = pitch.get('pitch_type')
+                start_speed = floatwrapper(pitch.get('start_speed'))
+                end_speed = floatwrapper(pitch.get('end_speed'))
+                outcome = pitch.get('des')
+                nasty = intwrapper(pitch.get('nasty'))
+                outcome_shorthand = pitch.get('type')
+                p_num = intwrapper(pitch.get('id')) # these increment weird, can't really discern the pattern
+                tupl = (game_id,
+                        atbat_num,
+                        pitcher_id,
+                        spin_rate,
+                        pitch_type,
+                        start_speed,
+                        end_speed,
+                        nasty,
+                        outcome_shorthand,
+                        outcome,
+                        inning_num,
+                        p_num,
+                        outs_after_bat)
+                tuplList.append(tupl)
+    return(tuplList)
+
+
+
+
 
 #
 # Function parsePitch. should this be in a seperate parsing package.

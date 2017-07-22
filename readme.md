@@ -67,7 +67,7 @@ Setup cassandra:
      2. Run ./cqlsh in the cassandra bin
      3. In cqlsh say: 
         CREATE KEYSPACE pitch_test with replication = {'class': 'SimpleStrategy', 'replication_factor' :1};
-     4. Run cassandra.createTable()
+     4. Run database.createTable()
      5. Download inning files using downloadAllInningFiles
      6. Run cassandra.insertData either use the code below for all files or choose one that you'd like to use
 
@@ -75,7 +75,7 @@ If you want to iterate across all files in local use this code in main:
 
      for files in os.listdir(settings.localDir):
      if files.endswith('.xml'):
-         cassandra.insertData(files)
+         database.insertData(files)
      else:
          continue
 

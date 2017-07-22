@@ -2,24 +2,26 @@
 
 from mlblib import scrapeUtils,settings,database
 import os
-import pandas as pd
-import learn
+from cassandra.cluster import Cluster
+import settings
+import scrapeUtils
+
+
 
 def main():
-    #postgre.insertPitchTable()
-    #link = 'http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01'
-    #postgre.downloadAndInsertPitchData(link,1)
-    #postgre.checkDataExists()
-    #scrapeUtils.downloadInningFile('http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/',1,2)
-    #scrapeUtils.downloadAllInningFiles(link,0)
-    #scrapeUtils.parsePitch(settings.localDir+"inningFile0.xml")
-    #for files in os.listdir(settings.localDir):
-    #    if files.endswith('.xml'):
-    #        cassandra.insertData(files,'pitch_test','pitches')
-    #    else:
-    #        continue
+    #Below is the usage of the new data batch inserts
+    #This requires that you have inning files in your local dir
+    #If not, call downloadAllInningFiles with a good YYYYMMDD string first
 
-    learn.tableToPandas()
+    cluster = Cluster()
+    session = cluster.connect('pitch_test')
+
+    for file in os.listdir(settings.localDir):
+        if file.endswith('.xml'):
+            data = scrapeUtils.parsePitchRewrite(settings.localDir + file)
+            #Batch Insert takes a session so we do not have to open and close cassandra sessions
+            #The reason to do multiple batch inserts is so that batches do not get too large
+            database.batchDataInsert(session, data, "pitches")
 
 
 if __name__ == "__main__":

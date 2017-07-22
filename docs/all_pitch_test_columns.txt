@@ -1,0 +1,13 @@
+game_id
+atbat_num
+pitcher_id
+spin_rate
+pitch_type
+start_speed
+end_speed
+nasty
+outcome_shorthand
+outcome
+inning_num
+p_num
+outs_after_bat

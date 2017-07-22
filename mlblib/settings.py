@@ -5,4 +5,5 @@ import os
 
 localDir = "../local/"
 sqlDir = "../sql/"
+docDir = "../docs/"
 sqlInitiate = sqlDir+"initiate_db.sql"
