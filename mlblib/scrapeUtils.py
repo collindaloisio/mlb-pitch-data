@@ -212,9 +212,6 @@ def scrapePitcherDates(refUrl):
             allDates.append(str(items.contents[0])[23:31])
 
     return allDates
-    
-if __name__ == "__main__":
-    main()
 
 
 

@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
-from mlblib import scrapeUtils,settings,cassandra
+from mlblib import scrapeUtils,settings,database
 import os
-
+import pandas as pd
+import learn
 
 def main():
     #postgre.insertPitchTable()
@@ -12,11 +13,13 @@ def main():
     #scrapeUtils.downloadInningFile('http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/',1,2)
     #scrapeUtils.downloadAllInningFiles(link,0)
     #scrapeUtils.parsePitch(settings.localDir+"inningFile0.xml")
-    for files in os.listdir(settings.localDir):
-        if files.endswith('.xml'):
-            cassandra.insertData(files,'pitch_test','pitches')
-        else:
-            continue
+    #for files in os.listdir(settings.localDir):
+    #    if files.endswith('.xml'):
+    #        cassandra.insertData(files,'pitch_test','pitches')
+    #    else:
+    #        continue
+
+    learn.tableToPandas()
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import unittest
 from mlblib import *
 import os
 import glob
-from mlblib import cassandra
+from mlblib import database
 
 ##################################################################################################################
 # Class: TestDownloads
@@ -60,7 +60,7 @@ class TestDatabaseFunctionality(unittest.TestCase):
     #should improve this test
     @unittest.skip("Don't want to set up a database yet. This is Pranscilla's work. Waiting for completion")
     def test_cassandra(self):
-        self.assertTrue(cassandra.testData() is not None)
+        self.assertTrue(database.testData() is not None)
 
 if __name__ == "__main__":
     unittest.main()
