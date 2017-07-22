@@ -20,20 +20,18 @@ def fetchCQL(filename):
 
 
 
-def createKeyspace(keyspaceInput):
+def createKeyspace(keyspace):
     cluster = Cluster()
-    keyspace = keyspaceInput
     session = cluster.connect()
-    session.execute('CREATE KEYSPACE ' + str(keyspaceInput) + " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };")
+    session.execute('CREATE KEYSPACE ' + str(keyspace) + " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };")
 
 
 #
 # Input: table (name of table), keyspace (name of keyspace)
 # Creates a table and inserts it into a keyspace
 #
-def createTable(k):
+def createTable(keyspace):
     cluster = Cluster()
-    keyspace = k
     session = cluster.connect(keyspace)
 
     #---Use this code to make your initial pitch table---
@@ -41,13 +39,12 @@ def createTable(k):
 
 #inserts data from a filename and into a keyspace: k and a table: table
 
-def insertData(fileName, k, table):
+def insertData(fileName, keyspace, table):
     #---This line will insert pitch data into your table for a given inning file---
     #---Currently, the primary key is the atbat_num, and the game_id---
 
     #not sure if this is redundant or necessary should look into it
     cluster = Cluster()
-    keyspace = k
     session = cluster.connect(keyspace)
 
     data = scrapeUtils.parsePitch(settings.localDir+fileName, table)
@@ -70,9 +67,8 @@ def testData(k):
     return(pitchList)
 
 
-def selectPitcher(k, table, pitcher):
+def selectPitcher(keyspace, table, pitcher):
     cluster = Cluster()
-    keyspace = k
     session = cluster.connect(keyspace)
 
     data = session.execute('SELECT * FROM ' + str(table))
