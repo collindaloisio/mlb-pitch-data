@@ -94,9 +94,9 @@ def downloadAllInningFiles(date):
 
     year = date[0:4]
     month = date[4:6]
-    day = date[7:9]
+    day = date[6:9]
 
-    dateUrl = "http://gd2.mlb.com/components/game/mlb/year_" + year + "/month_" + month + "/day_" + day
+    dateUrl = "http://gd2.mlb.com/components/game/mlb/year_" + year + "/month_" + month + "/day_" + day + "/"
 
     counter = 0
 
