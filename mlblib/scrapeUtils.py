@@ -90,7 +90,15 @@ def downloadInningFile(gameLink, segment):
 # Pardo's version of downloding inning files
 # this function downloads all inning_all.xml files for all games on a given day
 
-def downloadAllInningFiles(dateUrl, counter):
+def downloadAllInningFiles(date):
+
+    year = date[0:4]
+    month = date[4:6]
+    day = date[7:9]
+
+    dateUrl = "http://gd2.mlb.com/components/game/mlb/year_" + year + "/month_" + month + "/day_" + day
+
+    counter = 0
 
     print("Downloading File " + str(counter))
 

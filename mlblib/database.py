@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from dse.cluster import Cluster
+from cassandra.cluster import Cluster
 import settings
 import scrapeUtils
 import re

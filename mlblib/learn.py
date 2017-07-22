@@ -1,6 +1,5 @@
 from mlblib import database
 import logging
-from dse import query
 import pandas as pd
 
 from cassandra.cluster import Cluster
@@ -16,8 +15,7 @@ def tableToPandas():
 
     prepared_stmt = session.prepare('SELECT pitcher_id FROM pitches WHERE pitcher_id = 543699'
                                     ' LIMIT 100 ALLOW FILTERING;')
-
-    bound_stmt = prepared_stmt.bind([...])
-    rslt = session.execute(bound_stmt)
+    print(prepared_stmt)
+    rslt = session.execute(prepared_stmt)
     df = pd.DataFrame(rslt[0])
     print(df)

@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import unittest
-from mlblib import *
+from mlblib import scrapeUtils
+from mlblib import postgre
+from mlblib import settings
 import os
 import glob
 from mlblib import database
@@ -42,13 +44,12 @@ class TestDownloads(unittest.TestCase):
         self.assertEqual(scrapeUtils.downloadInningFile(link,1),-1)
         self.assertFalse(os.path.isfile(filePath + '/inning1.xml'))
 
-    @unittest.skip("don't want to download a bunch of files")
     def test_download_all_inning_files_for_a_given_date(self):
-        link = 'http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01'
-        scrapeUtils.downloadAllInningFiles(link, 0)
+        date = "20160701"
+        scrapeUtils.downloadAllInningFiles(date)
         for file in glob.glob(settings.localDir+'inning*'):
             self.assertNotEquals(os.path.getsize(file), 0)
-            os.remove(file)
+            #os.remove(file)
 
 
 class TestDatabaseFunctionality(unittest.TestCase):
