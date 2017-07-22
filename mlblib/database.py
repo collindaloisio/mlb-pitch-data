@@ -25,7 +25,6 @@ def createKeyspace(keyspace):
     session = cluster.connect()
     session.execute('CREATE KEYSPACE ' + str(keyspace) + " WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };")
 
-
 #
 # Input: table (name of table), keyspace (name of keyspace)
 # Creates a table and inserts it into a keyspace
@@ -75,15 +74,6 @@ def selectPitcher(keyspace, table, pitcher):
     for pitch in data:
         if pitch.pitcher_id == pitcher:
             print(str(pitch))
-
-
-
-
-
-
-
-def main():
-    createTable()
 
 
 if __name__ == "__main__":

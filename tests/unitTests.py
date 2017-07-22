@@ -38,12 +38,6 @@ class TestDownloads(unittest.TestCase):
         self.assertEqual(scrapeUtils.downloadInningFile(link,15), -1)
         self.assertFalse(os.path.isfile(filePath + '/inning15.xml'))
 
-    @unittest.skip("don't want to download file")
-    def test_download_inning_is_passed_non_existent_game_dir(self):
-        link = "NO_DICE_GAME_FILE"
-        self.assertEqual(scrapeUtils.downloadInningFile(link,1),-1)
-        self.assertFalse(os.path.isfile(filePath + '/inning1.xml'))
-
     def test_download_all_inning_files_for_a_given_date(self):
         date = "20160701"
         scrapeUtils.downloadAllInningFiles(date)

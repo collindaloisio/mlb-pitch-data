@@ -72,23 +72,11 @@ def downloadGameFiles(dateUrl, counter):
             downloadFile(gameLink+'game.xml',dfileName)
 
 #
-# Function downloadInningFile based on link and user choice of inning or "all"
-# Inputs: gameLink - Link to the gid file at the level of YYYYMMDD link
-#        eg: http://gd2.mlb.com/components/game/mlb/year_2016/month_07/day_01/gid_2016_07_01_kcamlb_phimlb_1/
-#        segment - Inning of game you want to download, 1-last inning(9+) or "all" for the whole inning_all file
-# Output: Downloads specified inning file determined by gameLink_segment to working directory
+# Function downloadAllInningFiles
+# Inputs: date - A date in the format YYYYMMDD
+#        eg: 20170520 = May 20 2017
+# Output: Downloads ALL inning files when
 #
-
-def downloadInningFile(gameLink, segment):
-
-    segLink = '_'+str(segment)+'.xml'
-    inningsLink = gameLink + 'inning/inning' + segLink
-
-    return downloadFile(inningsLink, 'inning'+str(segment)+'.xml')
-
-
-# Pardo's version of downloding inning files
-# this function downloads all inning_all.xml files for all games on a given day
 
 def downloadAllInningFiles(date):
 
@@ -220,7 +208,3 @@ def scrapePitcherDates(refUrl):
             allDates.append(str(items.contents[0])[23:31])
 
     return allDates
-
-
-
-
