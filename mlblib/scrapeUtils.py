@@ -203,7 +203,6 @@ def parsePitchRewrite(filename,columnReference):
                         continue
                     dataDict.update({dbCol : field})
                 dictList.append(dataDict)
-    print(dictList)
     return(dictList)
 
 

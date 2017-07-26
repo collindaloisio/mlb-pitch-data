@@ -126,7 +126,6 @@ def singleRowInsert(session, dataDict, table):
 
         cols = dataDict.keys()
         vals = dataDict.values()
-        print(cols)
 
         # generates a string like "col1,col2,col3...."
         colString = ','.join(cols)
@@ -138,6 +137,7 @@ def singleRowInsert(session, dataDict, table):
         insert_data = session.prepare(prepareString)
         #insertion = session.add(insert_data, vals)
         print("Inserting row into database")
+        print("Columns: ") + colString
         session.execute(insert_data, vals)
 
 def generateTableFromDoc(session,doc,tableName):
@@ -157,7 +157,6 @@ def generateTableFromDoc(session,doc,tableName):
 
     strCols = ','.join(columnList)
     exStr = 'CREATE TABLE ' + tableName + ' (' + strCols + ', PRIMARY KEY(game_id, inning_num, p_num));'
-    print(exStr)
     session.execute(exStr)
 
 
