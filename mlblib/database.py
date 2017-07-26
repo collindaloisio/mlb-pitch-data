@@ -158,6 +158,7 @@ def generateTableFromDoc(session,doc,tableName):
     strCols = ','.join(columnList)
     exStr = 'CREATE TABLE ' + tableName + ' (' + strCols + ', PRIMARY KEY(game_id, inning_num, p_num));'
     session.execute(exStr)
+    print('Created table ') + tableName + ' with columns: ' + ','.join(columnList)
 
 
 
