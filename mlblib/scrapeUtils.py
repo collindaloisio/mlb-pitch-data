@@ -84,7 +84,6 @@ def downloadAllInningFiles(date):
     month = date[4:6]
     day = date[6:8]
     dateUrl = "http://gd2.mlb.com/components/game/mlb/year_" + year + "/month_" + month + "/day_" + day
-
     counter = 0
 
     print("Downloading Files:")
@@ -116,7 +115,7 @@ def downloadAllInningFiles(date):
 #we should almost certainly deal with this differently
 def floatwrapper(str):
     if (str is None) | (str == ''):
-        return -1
+        return 'valueNotFound'
     else:
         return float(str)
 
@@ -124,9 +123,38 @@ def floatwrapper(str):
 #we should almost certainly deal with this differently
 def intwrapper(str):
     if (str is None) | (str == ''):
-        return -1
+        return 'valueNotFound'
     else:
         return int(str)
+
+def strwrapper(st):
+    if (st is None) | (st == ''):
+        return 'valueNotFound'
+    else:
+        return str(st)
+
+
+
+#takes a filename and column number
+#file should be newline seperated and look like: all_db_columns.txt
+#returns a list of tuples representing the xmlColumn and type
+def parseColumns(filename):
+    out = []
+    with open(filename) as f:
+        read_data = f.read().splitlines()
+    for line in read_data:
+        if line.startswith('--'):
+            continue
+        lineList = line.split()
+        tup = (lineList[0], lineList[1], lineList[2])
+        out.append(tup)
+    return(out)
+
+
+
+
+
+
 
 
 
@@ -140,47 +168,43 @@ def intwrapper(str):
 #In DB package, we will actually batch insert the tuple list as it is fairly simple to do.
 #Then, we can open ONE session, call parsePitchRewrite on as many files as we like to insert data for all files
 #filename parameter needs to be like: settings.localDir + file
-def parsePitchRewrite(filename):
+def parsePitchRewrite(filename,columnReference):
     tree = ET.parse(filename)
     root = tree.getroot()
     game_id = str(filename)[20:48]
-    tuplList = []
+
+    dictList = []
 
     for inning in root.findall('inning'):
+        # We always get the inning number
         inning_num = intwrapper(inning.get('num'))
 
-        # iterate through at bats in top of the inning
+        # iterate through atbats in top of the inning
         for atbat in inning.iter('atbat'):
+            #We always get the pitcher_id, atbat_num, and outs_after_bat
             pitcher_id = intwrapper(atbat.get('pitcher'))
             atbat_num = intwrapper(atbat.get('num'))
-            outs_after_bat = intwrapper(atbat.get('o')) # how many outs after the batter bats
-
+            outs_after_bat = intwrapper(atbat.get('o'))
 
             # iterate through pitches in atbat
             for pitch in atbat.findall('pitch'):
-                spin_rate = floatwrapper(pitch.get('spin_rate'))
-                pitch_type = pitch.get('pitch_type')
-                start_speed = floatwrapper(pitch.get('start_speed'))
-                end_speed = floatwrapper(pitch.get('end_speed'))
-                outcome = pitch.get('des')
-                nasty = intwrapper(pitch.get('nasty'))
-                outcome_shorthand = pitch.get('type')
-                p_num = intwrapper(pitch.get('id')) # these increment weird, can't really discern the pattern
-                tupl = (game_id,
-                        atbat_num,
-                        pitcher_id,
-                        spin_rate,
-                        pitch_type,
-                        start_speed,
-                        end_speed,
-                        nasty,
-                        outcome_shorthand,
-                        outcome,
-                        inning_num,
-                        p_num,
-                        outs_after_bat)
-                tuplList.append(tupl)
-    return(tuplList)
+                dataDict = {'game_id': game_id, 'inning_num' : inning_num, 'pitched_id' : pitcher_id,
+                            'atbat_num' : atbat_num, 'outs_after_bat' : outs_after_bat}
+                # iterate thru second column of table mapping (xml field names)
+                for (dbCol,xmlCol,typ) in parseColumns(columnReference):
+                    # Mock switch statement to choose wrapper based on field type
+                    switchDict = {
+                        'int' : intwrapper,
+                        'float' : floatwrapper,
+                        'text' : strwrapper
+                    }
+                    field = switchDict[typ](pitch.get(xmlCol))
+                    if field == 'valueNotFound':
+                        continue
+                    dataDict.update({dbCol : field})
+                dictList.append(dataDict)
+    print(dictList)
+    return(dictList)
 
 
 
