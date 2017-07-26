@@ -137,7 +137,7 @@ def strwrapper(st):
 
 #takes a filename and column number
 #file should be newline seperated and look like: all_db_columns.txt
-#returns a list of tuples representing the xmlColumn and type
+#returns a list of tuples representing the dbColumn, xmlColumn, and type
 def parseColumns(filename):
     out = []
     with open(filename) as f:
@@ -188,7 +188,7 @@ def parsePitchRewrite(filename,columnReference):
 
             # iterate through pitches in atbat
             for pitch in atbat.findall('pitch'):
-                dataDict = {'game_id': game_id, 'inning_num' : inning_num, 'pitched_id' : pitcher_id,
+                dataDict = {'game_id': game_id, 'inning_num' : inning_num, 'pitcher_id' : pitcher_id,
                             'atbat_num' : atbat_num, 'outs_after_bat' : outs_after_bat}
                 # iterate thru second column of table mapping (xml field names)
                 for (dbCol,xmlCol,typ) in parseColumns(columnReference):

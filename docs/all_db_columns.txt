@@ -1,39 +1,44 @@
-pitch des
-des_es
-id
-type
-tfs
-tfs_zulu
-x
-y
-event_num
-sv_id
-play_guid
-start_speed
-end_speed
-sz_top
-sz_bot
-pfx_x
-pfx_z
-px
-pz
-x0
-y0
-z0
-vx0
-vy0
-vz0
-ax
-ay
-az
-break_y
-break_angle
-break_length
-pitch_type
-type_confidence
-zone
-nasty
-spin_dir
-spin_rate
-cc
-mt
+--* dbName xmlName dbType
+-- game_id filename text
+-- inning_num num int
+-- atbat_num num int
+-- pitcher_id pitcher int
+-- outs_after_bat o int
+outcome_shorthand type text
+outcome des text
+p_num id int
+tfs tfs int
+tfs_zulu tfs_zulu text
+x x float
+y y float
+event_num event_num int
+sv_id sv_id text
+play_guid play_guid text
+start_speed start_speed float
+end_speed end_speed float
+sz_top sz_top float
+sz_bot sz_bot float
+pfx_x pfx_x float
+pfx_z pfx_z float
+px px float
+pz pz float
+x0 x0 float
+y0 y0 float
+z0 z0 float
+vx0 vx0 float
+vy0 vy0 float
+vz0 vz0 float
+ax ax float
+ay ay float
+az az float
+break_y break_y float
+break_angle break_angle float
+break_length break_length float
+pitch_type pitch_type text
+type_confidence type_confidence float
+zone zone int
+nasty nasty int
+spin_dir spin_dir float
+spin_rate spin_rate float
+cc cc text
+mt mt text

@@ -4,7 +4,7 @@ from cassandra.query import BatchStatement
 from cassandra import ConsistencyLevel
 import settings
 import scrapeUtils
-
+import cql
 
 ##################################################################################################################
 # Class: Database
@@ -117,5 +117,53 @@ def batchDataInsert(session, data, table):
         batch.add(insert_data, row)
     print("Inserting data batch into database")
     session.execute(batch)
+
+#function inserts a single row into cassandra database table
+#Takes datadict with column:value format
+#Inserts 1 row into table available at session
+#Meant to be used by iterating through parsePitchRewrite return value: a list of dataDicts
+def singleRowInsert(session, dataDict, table):
+
+        cols = dataDict.keys()
+        vals = dataDict.values()
+        print(cols)
+
+        # generates a string like "col1,col2,col3...."
+        colString = ','.join(cols)
+        # generates the appropriate number of ? marks for the number of columns in your table
+        quests = ('?,' * (len(cols) - 1)) + '?'
+
+        prepareString = "INSERT INTO " + table + "(" + colString + ")" + "VALUES" + "(" + quests + ")"
+
+        insert_data = session.prepare(prepareString)
+        #insertion = session.add(insert_data, vals)
+        print("Inserting row into database")
+        session.execute(insert_data, vals)
+
+def generateTableFromDoc(session,doc,tableName):
+    columnList = []
+
+    with open(doc) as f:
+        columnNames = f.read().splitlines()
+    for line in columnNames:
+        if line.startswith('--*'):
+            continue
+        if line.startswith('--'):
+            #take from 3rd character when line is commented... make sure there's a space after -- for this to work
+            line = line[3:]
+        #The below could be optimized to make only one call to split() if things are slow
+        newstr = line.split()[0] + ' ' + line.split()[2]
+        columnList.append(newstr)
+
+    strCols = ','.join(columnList)
+    exStr = 'CREATE TABLE ' + tableName + ' (' + strCols + ', PRIMARY KEY(game_id, inning_num, p_num));'
+    print(exStr)
+    session.execute(exStr)
+
+
+
+
+
+
 
 

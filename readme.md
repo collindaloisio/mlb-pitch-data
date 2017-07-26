@@ -38,14 +38,13 @@ Point being, dynamic fun scaling tools to analyze interpretivley.
 Create config.py as per config_template.txt
 
 ###Installations
-Install postgreSQL
 
 Install Cassandra
 
 ###Dependent Packages
 pip install psycopg2 : this is a postgresql Driver
 
-pip install dse-driver : this is a cassandra Driver
+cassandra, cql, pandas, numpy, scikit-learn
     If this doesn't work follow these steps:
     
     1. git clone https://github.com/datastax/python-dse-driver
@@ -95,7 +94,7 @@ have created and cleanly use them in the higher level iteration of our project. 
 mlblib. Inside mlblib, we have the following modules:
    __postgre__ - This is a module that contains functions used for creating/updating our database.
    
-   __cassandra__ - This is a module that contains functions for creating/updating a cassandra db. Need to discuss which 
+   __database__ - This is a module that contains functions for creating/updating a cassandra db. Need to discuss which 
    DB implementation we are using.
    
    __scrapeUtils__ - This is a module that contains functions used in scraping, and parsing data from our various data sources.
