@@ -44,7 +44,7 @@ Install Cassandra
 ###Dependent Packages
 pip install psycopg2 : this is a postgresql Driver
 
-cassandra, cql, pandas, numpy, scikit-learn
+cassandra, cql, pandas, numpy, scikit-learn, matplotlib
     If this doesn't work follow these steps:
     
     1. git clone https://github.com/datastax/python-dse-driver
