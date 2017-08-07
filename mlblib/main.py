@@ -5,7 +5,7 @@ import os
 from cassandra.cluster import Cluster
 import settings
 import scrapeUtils
-
+import time
 
 
 def main():
@@ -19,13 +19,19 @@ def main():
     #ONLY NEEDS TO HAPPEN ONCE, generates table with allcolumnssss
     #database.generateTableFromDoc(session,settings.docDir+"all_db_columns.txt","pitches_all")
 
+    t0 = time.time()
     for file in os.listdir(settings.localDir):
         if file.endswith('.xml'):
             data = scrapeUtils.parsePitchRewrite(settings.localDir + file, settings.docDir+"all_db_columns.txt")
             #Batch Insert takes a session so we do not have to open and close cassandra sessions
             #The reason to do multiple batch inserts is so that batches do not get too large
-            database.singleRowInsert(session, data[0], 'pitches_all')
-
+            #print(len(data))
+            #database.batchDataInsert(session, data, 'pitches_all')
+            for datas in data:
+                database.singleRowInsert(session, datas, 'pitches_all')
+            #print(','.join(data[0].values()))
+    t1 = time.time()
+    print(t1-t0)
 
 
 

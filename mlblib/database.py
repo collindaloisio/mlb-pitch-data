@@ -94,29 +94,45 @@ def batchDataInsert(session, data, table):
     #the columns will now be stored as text files with columns seperated by newlines in docs directory
     #any new tables add the mapping here
     #probably a better way to do this, feel free to change it
-    tableDict = {"pitches": settings.docDir + "all_pitch_test_columns.txt",
-                 "pitches_all_cols": settings.docDir + "all_db_columns.txt",
-                 }
+    #tableDict = {"pitches": settings.docDir + "all_pitch_test_columns.txt",
+    #             "pitches_all": settings.docDir + "all_db_columns.txt",
+    #             }
 
     # opens the column file from docs corresponding to the table you chose
-    with open(tableDict[table]) as f:
-        # returns a list of columns from your table
-        read_data = f.read().splitlines()
+    #with open(tableDict[table]) as f:
+    #     returns a list of columns from your table
+    #    read_data = f.read().splitlines()
 
     # generates a string like "col1,col2,col3...."
-    columns = ','.join(read_data)
+    #columns = ','.join(read_data)
+    cols=data[0].keys()
+    columns=','.join(cols)
     # generates the appropriate number of ? marks for the number of columns in your table
-    quests = ('?,' * (len(read_data) - 1)) + '?'
-
+    quests = ('?,' * (len(cols) - 1)) + '?'
     prepareString = "INSERT INTO " + table + "(" + columns + ")" + "VALUES" + "(" + quests + ")"
-
 
     insert_data = session.prepare(prepareString)
     batch = BatchStatement(consistency_level=ConsistencyLevel.QUORUM)
-    for row in data:
-        batch.add(insert_data, row)
-    print("Inserting data batch into database")
-    session.execute(batch)
+
+    counter = 0
+    batchList = []
+
+    while counter < len(data):
+        batch.add(insert_data.bind(data[counter]))
+
+        #Keep batches short otherwise an error is thrown
+        if counter % 50 == 0 and counter > 0:
+            batchList.append(batch)
+            batch = BatchStatement(consistency_level=ConsistencyLevel.QUORUM)
+
+        if counter == len(data)-1:
+            batchList.append(batch)
+
+        counter += 1
+
+    for batches in batchList:
+        session.execute(batches)
+
 
 #function inserts a single row into cassandra database table
 #Takes datadict with column:value format
@@ -136,8 +152,7 @@ def singleRowInsert(session, dataDict, table):
 
         insert_data = session.prepare(prepareString)
         #insertion = session.add(insert_data, vals)
-        print("Inserting row into database")
-        print("Columns: ") + colString
+
         session.execute(insert_data, vals)
 
 def generateTableFromDoc(session,doc,tableName):

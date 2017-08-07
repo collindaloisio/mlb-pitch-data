@@ -267,8 +267,12 @@ def parsePitch(filename, table):
                             str(outs_after_bat)
                 stringList.append(catString)
 
+    print(type(spin_rate))
+
     for stri in stringList:
         # build SQL
         out = frontSQL + stri + backSQL
         outList.append(out)
     return(outList)
+
+#def parseNew(filename, table):
